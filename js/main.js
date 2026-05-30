@@ -2,17 +2,22 @@
 const ham = document.getElementById('ham');
 const drawer = document.getElementById('drawer');
 let drawerOpen = false;
+
+function updateBodyOverflow() {
+  document.body.style.overflow = (drawerOpen || activeModal) ? 'hidden' : '';
+}
+
 ham.addEventListener('click', () => {
   drawerOpen = !drawerOpen;
   ham.classList.toggle('open', drawerOpen);
   drawer.classList.toggle('open', drawerOpen);
-  document.body.style.overflow = drawerOpen ? 'hidden' : '';
+  updateBodyOverflow();
 });
 function closeDrawer() {
   drawerOpen = false;
   ham.classList.remove('open');
   drawer.classList.remove('open');
-  document.body.style.overflow = '';
+  updateBodyOverflow();
 }
 drawer.addEventListener('click', e => { if (e.target === drawer) closeDrawer(); });
 
@@ -123,14 +128,14 @@ function openModal(id) {
   if (!el) return;
   activeModal = el;
   el.classList.add('open');
-  document.body.style.overflow = 'hidden';
+  updateBodyOverflow();
 }
 
 function closeModal(restoreScroll = true) {
   if (!activeModal) return;
   activeModal.classList.remove('open');
   activeModal = null;
-  if (restoreScroll) document.body.style.overflow = '';
+  if (restoreScroll) updateBodyOverflow();
 }
 
 function switchModal(id) {
