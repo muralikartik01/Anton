@@ -110,7 +110,7 @@
   <div class="products-grid">
 
     <!-- Rocky -->
-    <div class="product-card glass card-rocky reveal">
+    <div class="product-card glass card-rocky reveal" onclick="openModal('rocky')">
       <span class="product-num">01 / 04</span>
       <div class="product-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -129,10 +129,11 @@
         <div class="feat">Multi-channel communication</div>
         <div class="feat">Context-aware task execution</div>
       </div>
+      <div class="card-hint">Learn More</div>
     </div>
 
     <!-- Finy -->
-    <div class="product-card glass card-finy reveal" style="transition-delay:.1s">
+    <div class="product-card glass card-finy reveal" style="transition-delay:.1s" onclick="openModal('finy')">
       <span class="product-num">02 / 04</span>
       <div class="product-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -150,10 +151,11 @@
         <div class="feat">Smart spend categorization</div>
         <div class="feat">Savings & investment nudges</div>
       </div>
+      <div class="card-hint">Learn More</div>
     </div>
 
     <!-- Shopy -->
-    <div class="product-card glass card-shopy reveal" style="transition-delay:.2s">
+    <div class="product-card glass card-shopy reveal" style="transition-delay:.2s" onclick="openModal('shopy')">
       <span class="product-num">03 / 04</span>
       <div class="product-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -172,10 +174,11 @@
         <div class="feat">Autonomous checkout & ordering</div>
         <div class="feat">Delivery tracking & returns</div>
       </div>
+      <div class="card-hint">Learn More</div>
     </div>
 
     <!-- Estate3D -->
-    <div class="product-card glass card-estate reveal" style="transition-delay:.3s">
+    <div class="product-card glass card-estate reveal" style="transition-delay:.3s" onclick="openModal('estate')">
       <span class="product-num">04 / 04</span>
       <div class="product-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -194,6 +197,7 @@
         <div class="feat">AI-powered valuation</div>
         <div class="feat">Apartments, villas & commercial</div>
       </div>
+      <div class="card-hint">Learn More</div>
     </div>
 
   </div>
@@ -275,6 +279,154 @@
 </footer>
 
 <button id="scroll-top" aria-label="Back to top">↑</button>
+
+<!-- MODALS -->
+<div class="modal-overlay modal-rocky" id="modal-rocky" role="dialog" aria-modal="true" aria-label="Rocky product details">
+  <div class="modal-panel glass card-rocky">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="modal-body">
+      <div class="modal-info">
+        <span class="product-num">01 / 04</span>
+        <div class="product-name" style="color:var(--rocky-c)">Rocky</div>
+        <div class="product-subtitle">Personalized AI Assistant</div>
+        <div class="modal-divider"></div>
+        <p class="product-desc">Your intelligent personal companion — Rocky learns your habits, manages your schedule, handles reminders, and acts on your behalf across every corner of your digital life.</p>
+        <div class="product-features">
+          <div class="feat">Learns your preferences over time</div>
+          <div class="feat">Autonomous scheduling &amp; reminders</div>
+          <div class="feat">Multi-channel communication</div>
+          <div class="feat">Context-aware task execution</div>
+        </div>
+        <button class="btn-primary modal-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});closeModal()">Join Waitlist</button>
+      </div>
+      <div class="modal-preview">
+        <div class="preview-chrome"><span></span><span></span><span></span><div class="preview-title" style="color:var(--rocky-c)">Rocky — Dashboard</div></div>
+        <div class="preview-body">
+          <div class="preview-row"><div class="pr-label">Good morning, Anton</div><div class="pr-val" style="color:var(--rocky-c)">3 tasks scheduled today</div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="preview-row"><div class="pr-label">Next meeting</div><div class="pr-val" style="color:var(--rocky-c)">2:30 PM</div></div>
+            <div class="preview-row"><div class="pr-label">Reminders</div><div class="pr-val" style="color:var(--rocky-c)">5 pending</div></div>
+          </div>
+          <div class="preview-cmd"><div class="pc-in">"Rocky, reschedule my 3pm call to tomorrow"</div><div class="pc-out">→ Done. Moved to Thursday 3:00 PM ✓</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-dots">
+      <div class="modal-dot active" onclick="switchModal('rocky')"></div>
+      <div class="modal-dot" onclick="switchModal('finy')"></div>
+      <div class="modal-dot" onclick="switchModal('shopy')"></div>
+      <div class="modal-dot" onclick="switchModal('estate')"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay modal-finy" id="modal-finy" role="dialog" aria-modal="true" aria-label="Finy product details">
+  <div class="modal-panel glass card-finy">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="modal-body">
+      <div class="modal-info">
+        <span class="product-num">02 / 04</span>
+        <div class="product-name" style="color:var(--finy-c)">Finy</div>
+        <div class="product-subtitle">Financial Assistance</div>
+        <div class="modal-divider"></div>
+        <p class="product-desc">Finy connects to your bank, watches every transaction, and proactively alerts you before spending goes sideways — your autonomous personal finance manager.</p>
+        <div class="product-features">
+          <div class="feat">Live bank account integration</div>
+          <div class="feat">Real-time anomaly detection</div>
+          <div class="feat">Smart spend categorization</div>
+          <div class="feat">Savings &amp; investment nudges</div>
+        </div>
+        <button class="btn-primary modal-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});closeModal()">Join Waitlist</button>
+      </div>
+      <div class="modal-preview">
+        <div class="preview-chrome"><span></span><span></span><span></span><div class="preview-title" style="color:var(--finy-c)">Finy — Finance</div></div>
+        <div class="preview-body">
+          <div class="preview-row"><div class="pr-label">Balance</div><div class="pr-val" style="color:var(--finy-c)">$4,821.50</div></div>
+          <div class="preview-row"><div class="pr-label">This month</div><div class="pr-val" style="color:var(--finy-c)">−$1,240 spent · +$3,200 income</div></div>
+          <div class="preview-cmd"><div class="pc-in" style="color:#f87171">⚠ Unusual charge detected: $340 at Vendor XYZ</div><div class="pc-out">→ Flagged for review. Reply to approve or dispute.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-dots">
+      <div class="modal-dot" onclick="switchModal('rocky')"></div>
+      <div class="modal-dot active" onclick="switchModal('finy')"></div>
+      <div class="modal-dot" onclick="switchModal('shopy')"></div>
+      <div class="modal-dot" onclick="switchModal('estate')"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay modal-shopy" id="modal-shopy" role="dialog" aria-modal="true" aria-label="Shopy product details">
+  <div class="modal-panel glass card-shopy">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="modal-body">
+      <div class="modal-info">
+        <span class="product-num">03 / 04</span>
+        <div class="product-name" style="color:var(--shopy-c)">Shopy</div>
+        <div class="product-subtitle">AI Autonomous Shopping</div>
+        <div class="modal-divider"></div>
+        <p class="product-desc">Just tell Shopy what you need — it figures out exactly what you want, finds the best deal across the web, and handles the purchase. Ask Shopy, it does the rest.</p>
+        <div class="product-features">
+          <div class="feat">Natural language product discovery</div>
+          <div class="feat">Cross-platform price comparison</div>
+          <div class="feat">Autonomous checkout &amp; ordering</div>
+          <div class="feat">Delivery tracking &amp; returns</div>
+        </div>
+        <button class="btn-primary modal-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});closeModal()">Join Waitlist</button>
+      </div>
+      <div class="modal-preview">
+        <div class="preview-chrome"><span></span><span></span><span></span><div class="preview-title" style="color:var(--shopy-c)">Shopy — Orders</div></div>
+        <div class="preview-body">
+          <div class="preview-cmd"><div class="pc-in">"Find me the best wireless headphones under $150"</div><div class="pc-out">→ Found 3 options. Best deal: Sony WH-CH720N $98 on Amazon ✓</div></div>
+          <div class="preview-row"><div class="pr-label">Last order</div><div class="pr-val" style="color:var(--shopy-c)">Sony WH-CH720N · Out for delivery</div></div>
+          <div class="preview-row"><div class="pr-label">Savings this month</div><div class="pr-val" style="color:var(--shopy-c)">$64 saved vs. retail</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-dots">
+      <div class="modal-dot" onclick="switchModal('rocky')"></div>
+      <div class="modal-dot" onclick="switchModal('finy')"></div>
+      <div class="modal-dot active" onclick="switchModal('shopy')"></div>
+      <div class="modal-dot" onclick="switchModal('estate')"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay modal-estate" id="modal-estate" role="dialog" aria-modal="true" aria-label="Estate3D product details">
+  <div class="modal-panel glass card-estate">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="modal-body">
+      <div class="modal-info">
+        <span class="product-num">04 / 04</span>
+        <div class="product-name" style="color:var(--estate-c)">Estate3D</div>
+        <div class="product-subtitle">Immersive Property Platform</div>
+        <div class="modal-divider"></div>
+        <p class="product-desc">Sellers scan their property with a phone — Estate3D converts the footage into a photorealistic Gaussian Splat buyers can walk through from anywhere in the world.</p>
+        <div class="product-features">
+          <div class="feat">Phone-camera 3D capture</div>
+          <div class="feat">Gaussian Splat rendering engine</div>
+          <div class="feat">AI-powered valuation</div>
+          <div class="feat">Apartments, villas &amp; commercial</div>
+        </div>
+        <button class="btn-primary modal-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});closeModal()">Join Waitlist</button>
+      </div>
+      <div class="modal-preview">
+        <div class="preview-chrome"><span></span><span></span><span></span><div class="preview-title" style="color:var(--estate-c)">Estate3D — Listings</div></div>
+        <div class="preview-body">
+          <div class="preview-row"><div class="pr-label">Featured property</div><div class="pr-val" style="color:var(--estate-c)">3-bed Villa, Dubai Marina · $1.2M</div></div>
+          <div class="preview-row"><div class="pr-label">3D tour status</div><div class="pr-val" style="color:var(--estate-c)">Ready to view ● Live</div></div>
+          <div class="preview-cmd"><div class="pc-in">AI Valuation</div><div class="pc-out">→ Estimated market value: $1.18M–$1.24M (confidence: 94%)</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-dots">
+      <div class="modal-dot" onclick="switchModal('rocky')"></div>
+      <div class="modal-dot" onclick="switchModal('finy')"></div>
+      <div class="modal-dot" onclick="switchModal('shopy')"></div>
+      <div class="modal-dot active" onclick="switchModal('estate')"></div>
+    </div>
+  </div>
+</div>
 
 <script src="js/main.js" defer></script>
 </body>

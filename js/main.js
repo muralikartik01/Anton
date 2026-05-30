@@ -113,3 +113,36 @@ if (!noMotion) {
     setTimeout(() => p.remove(), 25000);
   }, 3500);
 }
+
+/* Modals */
+let activeModal = null;
+
+function openModal(id) {
+  if (activeModal) closeModal(false);
+  const el = document.getElementById('modal-' + id);
+  if (!el) return;
+  activeModal = el;
+  el.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(restoreScroll = true) {
+  if (!activeModal) return;
+  activeModal.classList.remove('open');
+  activeModal = null;
+  if (restoreScroll) document.body.style.overflow = '';
+}
+
+function switchModal(id) {
+  openModal(id);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeModal();
+  });
+});
