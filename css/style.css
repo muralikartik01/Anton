@@ -374,3 +374,4 @@ footer{position:relative;z-index:10;padding:clamp(36px,4vw,52px) clamp(20px,5vw,
 }
 #scroll-top.visible{opacity:1;pointer-events:all;}
 #scroll-top:hover{transform:translateY(-2px);box-shadow:0 0 22px rgba(124,58,237,.45);}
+#scroll-top:focus-visible{outline:2px solid rgba(192,132,252,.6);outline-offset:2px;}
