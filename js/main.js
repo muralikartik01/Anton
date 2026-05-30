@@ -91,6 +91,7 @@ const statsObs = new IntersectionObserver(entries => {
       const raw = el.textContent.trim();
       if (raw === '4')    animateCount(el, 4,   '',   1200);
       if (raw === '100%') animateCount(el, 100, '%',  1200);
+      // '3D' and '∞' are non-numeric — intentionally left as static text
     });
   });
 }, {threshold:0.5});
