@@ -151,3 +151,28 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
     if (e.target === overlay) closeModal();
   });
 });
+
+/* Waitlist form */
+function submitWaitlist() {
+  const input   = document.getElementById('cta-email');
+  const form    = document.getElementById('cta-form');
+  const success = document.getElementById('form-success');
+  const email   = input.value.trim();
+  const valid   = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  if (!valid) {
+    input.classList.remove('invalid');
+    void input.offsetWidth;
+    input.classList.add('invalid');
+    setTimeout(() => input.classList.remove('invalid'), 600);
+    return;
+  }
+
+  form.style.opacity = '0';
+  form.style.transition = 'opacity .3s';
+  setTimeout(() => {
+    form.style.display = 'none';
+    success.style.display = 'flex';
+    requestAnimationFrame(() => success.classList.add('visible'));
+  }, 300);
+}

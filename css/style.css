@@ -485,3 +485,32 @@ footer{position:relative;z-index:10;padding:clamp(36px,4vw,52px) clamp(20px,5vw,
   .modal-body{grid-template-columns:1fr;}
   .modal-preview{display:none;}
 }
+
+/* WAITLIST FORM */
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  20%{transform:translateX(-8px);}
+  40%{transform:translateX(8px);}
+  60%{transform:translateX(-5px);}
+  80%{transform:translateX(5px);}
+}
+.cta-form input.invalid{
+  border-color:rgba(239,68,68,.6)!important;
+  animation:shake .5s ease;
+}
+.form-success{
+  display:none;flex-direction:column;align-items:center;gap:10px;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .4s,transform .4s;
+}
+.form-success.visible{display:flex;opacity:1;transform:translateY(0);}
+.success-icon{
+  width:52px;height:52px;border-radius:50%;
+  border:2px solid var(--purple-hi);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;color:var(--purple-hi);
+  box-shadow:0 0 28px rgba(192,132,252,.4);
+  animation:blink 2s ease-in-out infinite;
+}
+.form-success p{font-family:var(--font-brand);font-size:clamp(1rem,1.8vw,1.3rem);color:var(--white);letter-spacing:.06em;}
+.form-success span{font-size:clamp(.78rem,1.2vw,.9rem);color:var(--muted);}

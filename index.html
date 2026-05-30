@@ -259,9 +259,14 @@
     <div class="eyebrow" style="justify-content:center">Early Access</div>
     <h2 class="cta-title">The future is<br><span>autonomous.</span></h2>
     <p class="cta-sub">Join the waitlist. Be first to experience Anton.io.</p>
-    <div class="cta-form">
-      <input type="email" placeholder="your@email.com" autocomplete="email">
-      <button type="button">Get Access</button>
+    <div class="cta-form" id="cta-form">
+      <input id="cta-email" type="email" placeholder="your@email.com" autocomplete="email">
+      <button id="cta-submit" type="button" onclick="submitWaitlist()">Get Access</button>
+    </div>
+    <div class="form-success" id="form-success">
+      <div class="success-icon">✓</div>
+      <p>You're on the list.</p>
+      <span>We'll be in touch when early access opens.</span>
     </div>
   </div>
 </section>
