@@ -70,6 +70,34 @@ const obs = new IntersectionObserver(entries => {
 }, {threshold:0.1, rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
+/* Stats count-up */
+function animateCount(el, target, suffix, duration) {
+  const start = performance.now();
+  function step(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target) + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = target + suffix;
+  }
+  requestAnimationFrame(step);
+}
+
+const statsObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    statsObs.unobserve(e.target);
+    e.target.querySelectorAll('.stat-num').forEach(el => {
+      const raw = el.textContent.trim();
+      if (raw === '4')    animateCount(el, 4,   '',   1200);
+      if (raw === '100%') animateCount(el, 100, '%',  1200);
+    });
+  });
+}, {threshold:0.5});
+
+const statsBar = document.querySelector('.stats-bar');
+if (statsBar) statsObs.observe(statsBar);
+
 /* Particles */
 if (!noMotion) {
   setInterval(() => {
