@@ -38,12 +38,29 @@ scrollTopBtn.addEventListener('click', () => {
   window.scrollTo({top:0, behavior:'smooth'});
 });
 
-/* Parallax A */
-const heroA = document.querySelector('.hero-a');
+/* Parallax */
 const noMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-if (heroA && !noMotion) {
+if (!noMotion) {
+  const heroA     = document.querySelector('.hero-a');
+  const heroTitle = document.querySelector('.hero-title');
+  const heroSub   = document.querySelector('.hero-sub');
+  const heroBadge = document.querySelector('.hero-badge');
+  const bgGrid    = document.querySelector('.bg-grid');
+
+  let ticking = false;
   window.addEventListener('scroll', () => {
-    heroA.style.transform = `translate(-50%, calc(-50% + ${window.scrollY * .3}px))`;
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (heroA)     heroA.style.transform     = `translate(-50%, calc(-50% + ${y * 0.3}px))`;
+        if (heroTitle) heroTitle.style.transform  = `translateY(${y * -0.12}px)`;
+        if (heroSub)   heroSub.style.transform    = `translateY(${y * -0.07}px)`;
+        if (heroBadge) heroBadge.style.transform  = `translateY(${y * -0.05}px)`;
+        if (bgGrid)    bgGrid.style.backgroundPositionY = `${y * 0.08}px`;
+        ticking = false;
+      });
+      ticking = true;
+    }
   }, {passive:true});
 }
 
