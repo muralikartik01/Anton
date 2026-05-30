@@ -168,8 +168,9 @@ function submitWaitlist() {
     return;
   }
 
+  const btn = document.getElementById('cta-submit');
+  if (btn) btn.disabled = true;
   form.style.opacity = '0';
-  form.style.transition = 'opacity .3s';
   setTimeout(() => {
     form.style.display = 'none';
     success.style.display = 'flex';
