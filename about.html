@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — ANTON IO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* ── HERO ── */
+  .hero{padding:120px 64px 100px;border-bottom:1px solid var(--border)}
+  .hero-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:5px;color:var(--text-3);margin-bottom:32px}
+  .hero-headline{font-size:clamp(48px,8vw,104px);font-weight:700;letter-spacing:-4px;line-height:0.92;max-width:900px}
+  .hero-headline em{font-style:normal;color:var(--text-2)}
+  .hero-sub{font-size:17px;color:var(--text-2);margin-top:40px;max-width:560px;line-height:1.8;font-weight:300}
+
+  /* ── STATS BAND ── */
+  .stats-band{border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr)}
+  .stat-cell{padding:48px 64px;border-right:1px solid var(--border)}
+  .stat-cell:last-child{border-right:none}
+  .stat-val{font-size:clamp(36px,5vw,64px);font-weight:700;letter-spacing:-3px;line-height:1}
+  .stat-lbl{font-size:10px;text-transform:uppercase;letter-spacing:2.5px;color:var(--text-3);margin-top:10px}
+  .stat-desc{font-size:12px;color:var(--text-3);margin-top:6px;line-height:1.5}
+
+  /* ── MANIFESTO ── */
+  .manifesto{padding:100px 64px;max-width:1200px}
+  .manifesto-body{display:grid;grid-template-columns:200px 1fr;gap:80px;align-items:start}
+  .manifesto-index{position:sticky;top:100px}
+  .m-index-label{font-size:9px;text-transform:uppercase;letter-spacing:3px;color:var(--text-3);margin-bottom:20px}
+  .m-index-items{display:flex;flex-direction:column;gap:0}
+  .m-index-item{font-size:12px;color:var(--text-3);padding:10px 0;border-top:1px solid var(--border);cursor:pointer;transition:color 0.2s;letter-spacing:0.3px}
+  .m-index-item:hover,.m-index-item.active{color:var(--text-2)}
+
+  .manifesto-text{}
+  .m-block{padding-bottom:72px;border-bottom:1px solid var(--border);margin-bottom:72px}
+  .m-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+  .m-num{font-size:9px;text-transform:uppercase;letter-spacing:3px;color:var(--text-3);margin-bottom:20px}
+  .m-title{font-size:clamp(26px,3.5vw,44px);font-weight:700;letter-spacing:-1.5px;line-height:1;margin-bottom:28px}
+  .m-para{font-size:15px;color:var(--text-2);line-height:1.9;font-weight:300}
+  .m-para+.m-para{margin-top:20px}
+  .m-para strong{color:var(--text);font-weight:500}
+  .m-pull{font-size:clamp(18px,2.5vw,26px);font-weight:300;color:var(--text-2);line-height:1.5;letter-spacing:-0.5px;border-left:2px solid var(--border);padding-left:28px;margin:36px 0}
+
+  /* ── CALLOUT ── */
+  .callout{padding:80px 64px;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .callout-inner{max-width:720px}
+  .callout-label{font-size:10px;text-transform:uppercase;letter-spacing:4px;color:var(--text-3);margin-bottom:24px}
+  .callout-text{font-size:clamp(20px,3vw,32px);font-weight:300;line-height:1.5;color:var(--text-2)}
+  .callout-text strong{color:var(--text);font-weight:600}
+
+  /* ── PROCESS ── */
+  .process-section{padding:100px 64px}
+  .process-header{margin-bottom:72px}
+  .process-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:5px;color:var(--text-3);margin-bottom:16px}
+  .process-title{font-size:clamp(28px,4vw,52px);font-weight:700;letter-spacing:-2px;line-height:1}
+  .process-title em{font-style:normal;color:var(--text-2)}
+
+  .process-list{display:flex;flex-direction:column;gap:0}
+  .process-item{display:grid;grid-template-columns:64px 1fr 1fr;gap:48px;align-items:start;padding:40px 0;border-top:1px solid var(--border);transition:background 0.2s}
+  .process-item:last-child{border-bottom:1px solid var(--border)}
+  .p-num{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text-3);padding-top:4px}
+  .p-name{font-size:22px;font-weight:600;letter-spacing:-0.6px}
+  .p-desc{font-size:13px;color:var(--text-2);line-height:1.75;font-weight:300}
+
+  /* ── CTA / WAITLIST ── */
+  .cta-section{padding:120px 64px;display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--border)}
+  .cta-left{}
+  .cta-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:5px;color:var(--text-3);margin-bottom:20px}
+  .cta-title{font-size:clamp(40px,6vw,80px);font-weight:700;letter-spacing:-3px;line-height:0.93}
+  .cta-title em{font-style:normal;color:var(--text-2)}
+  .cta-right{flex-shrink:0;padding-bottom:8px}
+  .cta-form{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:6px 6px 6px 24px;gap:8px;width:360px;transition:border-color 0.2s}
+  .cta-form:focus-within{border-color:var(--text-3)}
+  .cta-form input{flex:1;background:transparent;border:none;outline:none;font-size:13px;color:var(--text);font-family:var(--font)}
+  .cta-form input::placeholder{color:var(--text-3)}
+  .cta-form button{background:var(--text);color:var(--bg);border:none;border-radius:100px;padding:10px 20px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:var(--font);white-space:nowrap;transition:opacity 0.2s}
+  .cta-form button:hover{opacity:0.85}
+  .cta-note{font-size:11px;color:var(--text-3);margin-top:12px;text-align:center}
+
+  /* ── CONTACT ── */
+  .contact-section{padding:100px 64px;border-bottom:1px solid var(--border)}
+  .contact-header{margin-bottom:64px}
+  .contact-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:5px;color:var(--text-3);margin-bottom:16px}
+  .contact-title{font-size:clamp(36px,5vw,64px);font-weight:700;letter-spacing:-2.5px;line-height:0.95}
+  .contact-title em{font-style:normal;color:var(--text-2)}
+
+  .contact-body{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+  .contact-left{}
+  .contact-desc{font-size:15px;color:var(--text-2);line-height:1.8;font-weight:300;max-width:380px;margin-bottom:48px}
+  .contact-channels{display:flex;flex-direction:column;gap:0}
+  .contact-channel{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-top:1px solid var(--border);cursor:pointer;transition:color 0.2s;text-decoration:none;color:var(--text)}
+  .contact-channel:last-child{border-bottom:1px solid var(--border)}
+  .channel-left{display:flex;align-items:center;gap:16px}
+  .channel-icon{width:36px;height:36px;border-radius:10px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .channel-icon svg{width:14px;height:14px;stroke:var(--text-2);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  .channel-name{font-size:14px;font-weight:500}
+  .channel-handle{font-size:11px;color:var(--text-3);margin-top:2px}
+  .channel-arrow{font-size:16px;color:var(--text-3);transition:transform 0.2s,color 0.2s}
+  .contact-channel:hover .channel-arrow{transform:translateX(4px);color:var(--text-2)}
+
+  .contact-right{}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .form-group{margin-bottom:16px}
+  .form-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text-3);display:block;margin-bottom:8px}
+  textarea.form-control{height:128px}
+  .form-submit{display:inline-flex;align-items:center;gap:8px;background:var(--text);color:var(--bg);border:none;border-radius:100px;padding:13px 28px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;font-family:var(--font);transition:opacity 0.2s;margin-top:4px}
+  .form-submit:hover{opacity:0.85}
+
+  /* ── FOOTER (about-page rich footer) ── */
+  footer{padding:48px 64px}
+  .footer-top{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:48px;border-bottom:1px solid var(--border)}
+  .footer-logo{font-family:'Outfit',sans-serif;font-weight:300;font-size:20px;letter-spacing:0.18em;color:var(--text);text-decoration:none;display:block;margin-bottom:8px}
+  .footer-tagline{font-size:11px;color:var(--text-3)}
+  .footer-links{display:flex;gap:64px}
+  .footer-col-label{font-size:9px;text-transform:uppercase;letter-spacing:3px;color:var(--text-3);margin-bottom:16px}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .footer-col ul a{font-size:12px;color:var(--text-2);text-decoration:none;transition:color 0.2s}
+  .footer-col ul a:hover{color:var(--text)}
+  .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px}
+  .footer-copy{font-size:11px;color:var(--text-3)}
+  .footer-legal{display:flex;gap:24px}
+  .footer-legal a{font-size:11px;color:var(--text-3);text-decoration:none;transition:color 0.2s}
+  .footer-legal a:hover{color:var(--text-2)}
+</style>
+</head>
+<body>
+
+<nav class="nav-inner">
+  <a href="index.html" class="nav-logo">/NTONIO</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="academy.html">Academy</a></li>
+      <li><a href="about.html#contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle">
+      <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">About Anton IO</div>
+  <h1 class="hero-headline">We build software<br>that <em>thinks for you.</em></h1>
+  <p class="hero-sub">Anton IO is an AI-native product studio. We build autonomous software that doesn't wait to be told what to do — it reasons, acts, and adapts on your behalf.</p>
+</section>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="stat-cell">
+    <div class="stat-val">6</div>
+    <div class="stat-lbl">Products</div>
+    <div class="stat-desc">Autonomous AI products in one ecosystem</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val">2024</div>
+    <div class="stat-lbl">Founded</div>
+    <div class="stat-desc">Built from the ground up AI-native</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val">3</div>
+    <div class="stat-lbl">Academy Courses</div>
+    <div class="stat-desc">Bootcamps and courses in production AI</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val">∞</div>
+    <div class="stat-lbl">Possibilities</div>
+    <div class="stat-desc">Hyper-individualized to you</div>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<div class="manifesto">
+  <div class="manifesto-body">
+
+    <aside class="manifesto-index">
+      <div class="m-index-label">In this section</div>
+      <div class="m-index-items">
+        <div class="m-index-item active">Spec-Driven</div>
+        <div class="m-index-item">AI-Native</div>
+        <div class="m-index-item">Hyper-Individual</div>
+      </div>
+    </aside>
+
+    <div class="manifesto-text">
+
+      <div class="m-block" id="spec-driven">
+        <div class="m-num">01 — Philosophy</div>
+        <h2 class="m-title">Spec-Driven Development</h2>
+        <p class="m-para"><strong>Every product at Anton IO starts as a specification.</strong> A precise, tested description of what needs to exist — before a single line of code is written. Code is generated from the spec, not the other way around.</p>
+        <div class="m-pull">"When you define the outcome before you write a line, the software does exactly what it's supposed to do."</div>
+        <p class="m-para">This isn't a workflow preference. It's a philosophy. Spec-first thinking eliminates ambiguity, reduces rework, and produces software that actually matches intent. It means the people building the product understand it deeply before building it — and that the software can be verified against something true.</p>
+      </div>
+
+      <div class="m-block" id="ai-native">
+        <div class="m-num">02 — Architecture</div>
+        <h2 class="m-title">AI-Native, Not AI-Added</h2>
+        <p class="m-para">Our model is <strong>AI-native</strong> — every product is designed from the ground up to leverage autonomous intelligence. The AI isn't a chatbot sitting on top of existing software. It is the operating layer. It reasons, plans, executes, and iterates on your behalf.</p>
+        <p class="m-para">The difference matters. AI-added products feel bolted on — a "smart" filter here, an autocomplete there. AI-native products are different in kind. They change what the software is capable of and how you relate to it. You stop using a tool and start delegating to a system.</p>
+        <div class="m-pull">"You stop using a tool and start delegating to a system."</div>
+      </div>
+
+      <div class="m-block" id="hyper-individual">
+        <div class="m-num">03 — Vision</div>
+        <h2 class="m-title">Hyper-Individualized Software</h2>
+        <p class="m-para">The era of one-size-fits-all platforms is ending. The next generation of software will know you specifically — your patterns, your goals, your constraints — and operate at the intersection of all three, invisibly, in your corner at all times.</p>
+        <p class="m-para">What drives everything at Anton IO is the belief that <strong>software should fit the person, not the other way around.</strong> Not segments. Not personas. You, specifically — your habits, your context, your definition of what good looks like. That's what we're building toward.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CALLOUT -->
+<div class="callout">
+  <div class="callout-inner">
+    <div class="callout-label">What we believe</div>
+    <p class="callout-text">The most powerful software in the world is software that <strong>works on your behalf without being asked.</strong> That understands context, anticipates needs, and operates within boundaries you define — quietly, reliably, every day.</p>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<section class="process-section">
+  <div class="process-header">
+    <div class="process-eyebrow">How we operate</div>
+    <h2 class="process-title">From idea to<br><em>shipped product.</em></h2>
+  </div>
+  <div class="process-list">
+    <div class="process-item">
+      <div class="p-num">01</div>
+      <div class="p-name">Design</div>
+      <p class="p-desc">Spec-first ideation. We define the problem precisely, map the outcome, and write a verified specification before any code exists. The spec is the source of truth.</p>
+    </div>
+    <div class="process-item">
+      <div class="p-num">02</div>
+      <div class="p-name">Build</div>
+      <p class="p-desc">AI-native development from spec. Every component is purpose-built, tested against the spec, and validated autonomously. No guesswork, no drift.</p>
+    </div>
+    <div class="process-item">
+      <div class="p-num">03</div>
+      <div class="p-name">Ship</div>
+      <p class="p-desc">Fast, deliberate deployment. Staged rollouts, automated monitoring, and immediate feedback loops baked in from day one.</p>
+    </div>
+    <div class="process-item">
+      <div class="p-num">04</div>
+      <div class="p-name">Iterate</div>
+      <p class="p-desc">Continuous autonomous improvement. Products learn from usage, surface insights, and propose their own enhancements. The loop never stops.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST CTA -->
+<section class="cta-section" id="waitlist">
+  <div class="cta-left">
+    <div class="cta-eyebrow">Waitlist</div>
+    <h2 class="cta-title">Join the<br><em>waitlist.</em></h2>
+  </div>
+  <div class="cta-right">
+    <form class="cta-form" id="waitlist-form">
+      <input type="email" placeholder="your@email.com" required />
+      <button type="submit">Get Access</button>
+    </form>
+    <p class="cta-note">No spam. One email when your spot opens.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-header">
+    <div class="contact-eyebrow">Contact</div>
+    <h2 class="contact-title">Let's<br><em>talk.</em></h2>
+  </div>
+  <div class="contact-body">
+    <div class="contact-left">
+      <p class="contact-desc">Whether you're interested in early access, a partnership, or building something together — we want to hear from you.</p>
+      <div class="contact-channels">
+        <a href="mailto:hello@anton.io" class="contact-channel">
+          <div class="channel-left">
+            <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div><div class="channel-name">Email</div><div class="channel-handle">hello@anton.io</div></div>
+          </div>
+          <span class="channel-arrow">→</span>
+        </a>
+        <a href="https://twitter.com/antonioai" class="contact-channel" target="_blank" rel="noopener">
+          <div class="channel-left">
+            <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></div>
+            <div><div class="channel-name">Twitter / X</div><div class="channel-handle">@antonioai</div></div>
+          </div>
+          <span class="channel-arrow">→</span>
+        </a>
+        <a href="https://linkedin.com/company/anton-io" class="contact-channel" target="_blank" rel="noopener">
+          <div class="channel-left">
+            <div class="channel-icon"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+            <div><div class="channel-name">LinkedIn</div><div class="channel-handle">Anton IO</div></div>
+          </div>
+          <span class="channel-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-right">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-control" placeholder="Antonio" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-control" placeholder="Smith" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" placeholder="your@email.com" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Subject</label>
+        <input type="text" class="form-control" placeholder="Early access, partnership, general..." />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-control" placeholder="Tell us what's on your mind..."></textarea>
+      </div>
+      <button class="form-submit">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <a href="index.html" class="footer-logo">/NTONIO</a>
+      <div class="footer-tagline">AI-Native Product Studio · Est. 2024</div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <div class="footer-col-label">Products</div>
+        <ul>
+          <li><a href="products.html">Rocky</a></li>
+          <li><a href="products.html">Finvy</a></li>
+          <li><a href="products.html">Shopy</a></li>
+          <li><a href="products.html">Estate3D</a></li>
+          <li><a href="products.html">KissAI</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Company</div>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="academy.html">Academy</a></li>
+          <li><a href="about.html#contact">Contact</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Connect</div>
+        <ul>
+          <li><a href="https://twitter.com/antonioai" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://linkedin.com/company/anton-io" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://github.com/anton-io" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2024 Anton IO. All rights reserved.</span>
+    <div class="footer-legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Manifesto sidebar scroll-spy
+  const blocks = document.querySelectorAll('.m-block');
+  const indexItems = document.querySelectorAll('.m-index-item');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const i = [...blocks].indexOf(e.target);
+        indexItems.forEach((el, j) => el.classList.toggle('active', i === j));
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  blocks.forEach(b => observer.observe(b));
+</script>
+<script src="js/main.js"></script>
+</body>
+</html>
