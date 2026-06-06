@@ -20,36 +20,20 @@
   .intro-title { font-size: clamp(36px,6vw,72px); font-weight: 700; letter-spacing: -2.5px; line-height: 0.96; }
   .intro-title em { font-style: normal; color: var(--text-2); }
   .intro-sub { font-size: 14px; color: var(--text-2); margin-top: 18px; max-width: 480px; line-height: 1.75; font-weight: 300; }
-  .carousel-nav { display: flex; gap: 8px; align-self: flex-end; }
-  .nav-btn {
-    width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border);
-    background: transparent; color: var(--text-2); cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; transition: all 0.2s;
-  }
-  .nav-btn:hover { background: var(--surface); border-color: var(--text-3); color: var(--text); }
-  .nav-btn:disabled { opacity: 0.2; cursor: default; }
 
-  /* ── CAROUSEL ── */
-  .carousel-wrap { position: relative; overflow: hidden; }
-  .carousel-wrap::before,.carousel-wrap::after {
-    content: ''; position: absolute; top: 0; bottom: 0; width: 56px; z-index: 2; pointer-events: none;
+  /* ── GRID ── */
+  .grid-container { padding: 0 48px; }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    width: 100%;
   }
-  .carousel-wrap::before { left: 0;  background: linear-gradient(to right, var(--bg) 10%, transparent); }
-  .carousel-wrap::after  { right: 0; background: linear-gradient(to left,  var(--bg) 10%, transparent); }
-  .carousel-track {
-    display: flex; gap: 16px; padding: 8px 48px 24px;
-    overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
-    scrollbar-width: none; cursor: grab;
-  }
-  .carousel-track::-webkit-scrollbar { display: none; }
-  .carousel-track:active { cursor: grabbing; }
 
   /* ── CARDS ── */
   .card {
-    flex: 0 0 300px;
     background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
-    scroll-snap-align: start; cursor: pointer;
+    cursor: pointer;
     transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
     overflow: hidden; display: flex; flex-direction: column;
     box-shadow: 0 2px 12px rgba(0,0,0,0.15);
@@ -59,7 +43,6 @@
   [data-theme="light"] .card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
 
   .card-info  { padding: 24px 24px 20px; }
-  .card-badge { font-size: 9px; text-transform: uppercase; letter-spacing: 2.5px; color: var(--text-3); margin-bottom: 10px; }
   .card-name  { font-size: 26px; font-weight: 700; letter-spacing: -0.8px; line-height: 1; }
   .card-tagline { font-size: 12px; color: var(--text-2); line-height: 1.6; margin-top: 8px; }
   .card-cta {
@@ -74,12 +57,12 @@
     margin: 0 12px; border-radius: 12px;
     height: 200px; overflow: hidden; position: relative;
     background: linear-gradient(145deg, #161616 0%, #0e0e0e 100%);
-    border: 1px solid var(--border); border-bottom: none;
+    border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
   [data-theme="light"] .card-demo { background: linear-gradient(145deg, #e8e8e8 0%, #f0f0f0 100%); }
   .demo-placeholder { text-align: center; }
-  .demo-icon  { font-size: 52px; display: block; filter: grayscale(1) brightness(0.5); transition: filter 0.3s, transform 0.3s; }
+  .demo-icon { font-size: 52px; display: block; filter: grayscale(1) brightness(0.5); transition: filter 0.3s, transform 0.3s; }
   .card:hover .demo-icon { filter: grayscale(0.2) brightness(0.85); transform: scale(1.1); }
   .demo-label { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-3); margin-top: 10px; display: block; }
   .demo-badge {
@@ -90,17 +73,15 @@
   [data-theme="light"] .demo-badge { background: rgba(0,0,0,0.04); }
 
   .card-features { padding: 20px 24px 24px; flex: 1; }
-  .features-label { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-3); margin-bottom: 14px; }
-  .feature-item { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-top: 1px solid var(--border); }
-  .feature-item:first-of-type { border-top: none; }
-  .feature-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.5; display: flex; align-items: center; justify-content: center; }
-  .feature-icon svg { width: 14px; height: 14px; stroke: var(--text-2); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-  .feature-text { font-size: 11px; color: var(--text-2); line-height: 1.4; }
-
-  /* ── DOTS ── */
-  .carousel-dots { display: flex; gap: 6px; justify-content: center; margin-top: 20px; }
-  .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); transition: all 0.3s; cursor: pointer; }
-  .dot.active { width: 22px; border-radius: 3px; background: var(--text-3); }
+  .features-label { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-3); margin-bottom: 12px; }
+  .features-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .feature-tag {
+    font-size: 11px; color: var(--text-2);
+    background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+    padding: 6px 12px; border-radius: 8px; transition: all 0.2s ease;
+  }
+  .feature-tag:hover { color: var(--text); background: var(--surface); border-color: var(--text-3); }
+  [data-theme="light"] .feature-tag { background: rgba(0,0,0,0.03); }
 </style>
 </head>
 <body>
@@ -124,273 +105,175 @@
 
 <section class="products-section">
   <div class="section-intro">
-    <div>
+    <div class="intro-left">
       <div class="intro-eyebrow">Products</div>
-      <h1 class="intro-title">Built for<br><em>autonomy.</em></h1>
-      <p class="intro-sub">Six intelligent products. One seamless ecosystem. Each designed to take independent action in a specific domain of your life.</p>
-    </div>
-    <div class="carousel-nav">
-      <button class="nav-btn" id="prev" disabled>&#8592;</button>
-      <button class="nav-btn" id="next">&#8594;</button>
+      <h1 class="intro-title">Six products.<br><em>One ecosystem.</em></h1>
+      <p class="intro-sub">Autonomous AI products designed for individuals — each solving one problem deeply, all working together seamlessly.</p>
     </div>
   </div>
-  <div class="carousel-wrap">
-    <div class="carousel-track" id="track">
 
-      <!-- Rocky -->
+  <div class="grid-container">
+    <div class="products-grid">
+
       <div class="card">
         <div class="card-info">
           <div class="card-name">Rocky</div>
           <div class="card-tagline">Your autonomous daily operator. Takes action without being asked twice.</div>
-          <span class="card-cta">Early Access &#8594;</span>
+          <span class="card-cta">Early Access →</span>
         </div>
         <div class="card-demo">
           <div class="demo-badge">Demo</div>
           <div class="demo-placeholder">
-            <span class="demo-icon">&#129040;</span>
+            <span class="demo-icon">🪨</span>
             <span class="demo-label">Product demo coming soon</span>
           </div>
         </div>
         <div class="card-features">
           <div class="features-label">Key Features</div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-            <span class="feature-text">Autonomous Execution</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-            <span class="feature-text">Context Memory</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-            <span class="feature-text">Real-Time Telemetry</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-            <span class="feature-text">Cross-Platform Sync</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-            <span class="feature-text">Privacy-First Architecture</span>
+          <div class="features-tags">
+            <span class="feature-tag">Autonomous Execution</span>
+            <span class="feature-tag">Context Memory</span>
+            <span class="feature-tag">Real-Time Telemetry</span>
+            <span class="feature-tag">Cross-Platform Sync</span>
+            <span class="feature-tag">Privacy-First Architecture</span>
           </div>
         </div>
       </div>
 
-      <!-- Finvy -->
       <div class="card">
         <div class="card-info">
           <div class="card-name">Finvy</div>
           <div class="card-tagline">Intelligent finance that tracks, predicts, and acts on your behalf.</div>
-          <span class="card-cta">Early Access &#8594;</span>
+          <span class="card-cta">Early Access →</span>
         </div>
         <div class="card-demo">
           <div class="demo-badge">Demo</div>
           <div class="demo-placeholder">
-            <span class="demo-icon">&#128202;</span>
+            <span class="demo-icon">📊</span>
             <span class="demo-label">Product demo coming soon</span>
           </div>
         </div>
         <div class="card-features">
           <div class="features-label">Key Features</div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-            <span class="feature-text">Spend Tracking</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-            <span class="feature-text">Predictive Budgets</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-            <span class="feature-text">Autonomous Actions</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-            <span class="feature-text">Multi-Account Sync</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-            <span class="feature-text">Bank-Grade Encryption</span>
+          <div class="features-tags">
+            <span class="feature-tag">Spend Tracking</span>
+            <span class="feature-tag">Predictive Budgets</span>
+            <span class="feature-tag">Autonomous Actions</span>
+            <span class="feature-tag">Multi-Account Sync</span>
+            <span class="feature-tag">Bank-Grade Encryption</span>
           </div>
         </div>
       </div>
 
-      <!-- Shopy -->
       <div class="card">
         <div class="card-info">
           <div class="card-name">Shopy</div>
           <div class="card-tagline">AI-powered shopping that understands your context and preferences deeply.</div>
-          <span class="card-cta">Early Access &#8594;</span>
+          <span class="card-cta">Early Access →</span>
         </div>
         <div class="card-demo">
           <div class="demo-badge">Demo</div>
           <div class="demo-placeholder">
-            <span class="demo-icon">&#128717;</span>
+            <span class="demo-icon">🛍️</span>
             <span class="demo-label">Product demo coming soon</span>
           </div>
         </div>
         <div class="card-features">
           <div class="features-label">Key Features</div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-            <span class="feature-text">Contextual Discovery</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-            <span class="feature-text">Preference Profiling</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></div>
-            <span class="feature-text">Deal Hunting</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
-            <span class="feature-text">End-to-End Processing</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
-            <span class="feature-text">Variance Alerts</span>
+          <div class="features-tags">
+            <span class="feature-tag">Contextual Discovery</span>
+            <span class="feature-tag">Preference Profiling</span>
+            <span class="feature-tag">Deal Hunting</span>
+            <span class="feature-tag">End-to-End Processing</span>
+            <span class="feature-tag">Variance Alerts</span>
           </div>
         </div>
       </div>
 
-      <!-- Estate3D -->
       <div class="card">
         <div class="card-info">
           <div class="card-name">Estate3D</div>
           <div class="card-tagline">Immersive 3D property exploration powered by real-time AI analysis.</div>
-          <span class="card-cta">Early Access &#8594;</span>
+          <span class="card-cta">Early Access →</span>
         </div>
         <div class="card-demo">
           <div class="demo-badge">Demo</div>
           <div class="demo-placeholder">
-            <span class="demo-icon">&#127968;</span>
+            <span class="demo-icon">🏠</span>
             <span class="demo-label">Product demo coming soon</span>
           </div>
         </div>
         <div class="card-features">
           <div class="features-label">Key Features</div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
-            <span class="feature-text">Spatial 3D Renders</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-            <span class="feature-text">Neural Sorting</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-            <span class="feature-text">Dynamic Valuations</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-            <span class="feature-text">Geospatial Telemetry</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-            <span class="feature-text">Virtual Staging</span>
+          <div class="features-tags">
+            <span class="feature-tag">Spatial 3D Renders</span>
+            <span class="feature-tag">Neural Sorting</span>
+            <span class="feature-tag">Dynamic Valuations</span>
+            <span class="feature-tag">Geospatial Telemetry</span>
+            <span class="feature-tag">Virtual Staging</span>
           </div>
         </div>
       </div>
 
-      <!-- KissAI -->
       <div class="card">
         <div class="card-info">
           <div class="card-name">KissAI</div>
           <div class="card-tagline">One problem. Solved completely. No prompting, no setup, no bloat.</div>
-          <span class="card-cta">Early Access &#8594;</span>
+          <span class="card-cta">Early Access →</span>
         </div>
         <div class="card-demo">
           <div class="demo-badge">Demo</div>
           <div class="demo-placeholder">
-            <span class="demo-icon">&#9889;</span>
+            <span class="demo-icon">⚡</span>
             <span class="demo-label">Product demo coming soon</span>
           </div>
         </div>
         <div class="card-features">
           <div class="features-label">Key Features</div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-            <span class="feature-text">Zero-Prompt Engine</span>
+          <div class="features-tags">
+            <span class="feature-tag">Zero-Prompt Engine</span>
+            <span class="feature-tag">Instant Initialization</span>
+            <span class="feature-tag">Domain Sandboxing</span>
+            <span class="feature-tag">Secure Pathways</span>
+            <span class="feature-tag">Modular Matrix</span>
           </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-            <span class="feature-text">Instant Initialization</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-info">
+          <div class="card-name">Academy</div>
+          <div class="card-tagline">GenAI & Agentic AI · Soft Skills · NLP. Learn to build autonomous AI.</div>
+          <a href="academy.html" class="card-cta" style="text-decoration:none">Explore Courses →</a>
+        </div>
+        <div class="card-demo">
+          <div class="demo-badge">Education</div>
+          <div class="demo-placeholder">
+            <span class="demo-icon">🎓</span>
+            <span class="demo-label">Internship-based courses</span>
           </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-            <span class="feature-text">Domain Sandboxing</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-            <span class="feature-text">Secure Pathways</span>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
-            <span class="feature-text">Modular Matrix</span>
+        </div>
+        <div class="card-features">
+          <div class="features-label">Courses</div>
+          <div class="features-tags">
+            <span class="feature-tag">GenAI & Agentic AI</span>
+            <span class="feature-tag">Soft Skills</span>
+            <span class="feature-tag">Neuro Linguistic Programming</span>
           </div>
         </div>
       </div>
 
     </div>
   </div>
-  <div class="carousel-dots">
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-  </div>
 </section>
 
 <footer class="site-footer">
-  <span class="site-footer-copy">&#169; 2024 Anton IO. All rights reserved.</span>
+  <span class="site-footer-copy">© 2024 Anton IO. All rights reserved.</span>
   <div class="site-footer-links">
     <a href="#">Privacy</a><a href="#">Terms</a><a href="about.html#contact">Contact</a>
   </div>
 </footer>
 
 <script src="js/main.js"></script>
-<script>
-  const track = document.getElementById('track');
-  const prev  = document.getElementById('prev');
-  const next  = document.getElementById('next');
-  const dots  = document.querySelectorAll('.dot');
-  let current = 0;
-  const total = 5;
-
-  function goTo(idx) {
-    current = Math.max(0, Math.min(idx, total - 1));
-    const card = track.children[current];
-    if (!card) return;
-    track.scrollTo({ left: card.offsetLeft - 48, behavior: 'smooth' });
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
-    prev.disabled = current === 0;
-    next.disabled = current === total - 1;
-  }
-
-  prev.addEventListener('click', () => goTo(current - 1));
-  next.addEventListener('click', () => goTo(current + 1));
-
-  let isDown = false, startX, scrollLeft;
-  track.addEventListener('mousedown', e => { isDown = true; startX = e.pageX - track.offsetLeft; scrollLeft = track.scrollLeft; });
-  track.addEventListener('mouseleave', () => isDown = false);
-  track.addEventListener('mouseup',    () => isDown = false);
-  track.addEventListener('mousemove',  e => {
-    if (!isDown) return; e.preventDefault();
-    track.scrollLeft = scrollLeft - (e.pageX - track.offsetLeft - startX) * 1.5;
-  });
-
-  track.addEventListener('scroll', () => {
-    if (!track.children[0]) return;
-    const idx = Math.round(track.scrollLeft / (track.children[0].offsetWidth + 16));
-    if (idx !== current && idx >= 0 && idx < total) {
-      current = idx;
-      dots.forEach((d, i) => d.classList.toggle('active', i === current));
-      prev.disabled = current === 0;
-      next.disabled = current === total - 1;
-    }
-  }, { passive: true });
-</script>
 </body>
 </html>
