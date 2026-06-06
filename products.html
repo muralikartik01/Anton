@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products — ANTON IO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  body {
+    padding-bottom: 80px;
+  }
+
+  /* SECTION WRAPPER */
+  .products-section {
+    padding: 72px 0 40px;
+  }
+
+  .section-intro {
+    padding: 0 48px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .intro-eyebrow {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--text-3);
+    margin-bottom: 14px;
+  }
+
+  .intro-title {
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 700;
+    letter-spacing: -2.5px;
+    line-height: 0.96;
+  }
+
+  .intro-title em {
+    font-style: normal;
+    color: var(--text-2);
+  }
+
+  .intro-sub {
+    font-size: 14px;
+    color: var(--text-2);
+    margin-top: 18px;
+    max-width: 480px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  /* PRODUCTS GRID SETUP */
+  .grid-container {
+    padding: 0 48px;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    width: 100%;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card-bg, #111);
+    border: 1px solid var(--card-border, #1c1c1c);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .card:hover {
+    border-color: var(--text-3);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  }
+
+  [data-theme="light"] .card {
+    background: #fff;
+    border-color: #e0e0e0;
+  }
+
+  [data-theme="light"] .card:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Card top info */
+  .card-info {
+    padding: 24px 24px 20px;
+  }
+
+  .card-name {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+    line-height: 1;
+  }
+
+  .card-tagline {
+    font-size: 12px;
+    color: var(--text-2);
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+
+  .card-cta {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 7px 16px;
+    border-radius: 100px;
+    transition: border-color 0.2s;
+    text-decoration: none;
+  }
+
+  .card:hover .card-cta {
+    border-color: var(--text-3);
+  }
+
+  /* Demo area */
+  .card-demo {
+    margin: 0 12px;
+    border-radius: 12px;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(145deg, #161616 0%, #0e0e0e 100%);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  [data-theme="light"] .card-demo {
+    background: linear-gradient(145deg, #e8e8e8 0%, #f0f0f0 100%);
+  }
+
+  .demo-placeholder {
+    text-align: center;
+  }
+
+  .demo-icon {
+    font-size: 52px;
+    display: block;
+    filter: grayscale(1) brightness(0.5);
+    transition: filter 0.3s, transform 0.3s;
+  }
+
+  .card:hover .demo-icon {
+    filter: grayscale(0.2) brightness(0.85);
+    transform: scale(1.1);
+  }
+
+  .demo-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-3);
+    margin-top: 10px;
+    display: block;
+  }
+
+  .demo-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 8px;
+    color: var(--text-3);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  [data-theme="light"] .demo-badge {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  /* Feature tags */
+  .card-features {
+    padding: 20px 24px 24px;
+    flex: 1;
+  }
+
+  .features-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-3);
+    margin-bottom: 12px;
+  }
+
+  .features-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .feature-tag {
+    font-size: 11px;
+    color: var(--text-2);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+
+  [data-theme="light"] .feature-tag {
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  .feature-tag:hover {
+    color: var(--text);
+    background: var(--surface);
+    border-color: var(--text-3);
+  }
+</style>
+</head>
+
+<body>
+
+  <nav class="nav-inner">
+    <a href="index.html" class="nav-logo">/NTONIO</a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html" class="active">Products</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="academy.html">Academy</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+      <button class="theme-toggle" aria-label="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="4" />
+          <line x1="12" y1="2" x2="12" y2="4" />
+          <line x1="12" y1="20" x2="12" y2="22" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="2" y1="12" x2="4" y2="12" />
+          <line x1="20" y1="12" x2="22" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <section class="products-section">
+    <div class="section-intro">
+      <div class="intro-left">
+        <div class="intro-eyebrow">Products</div>
+        <h1 class="intro-title">Five products.<br><em>One ecosystem.</em></h1>
+        <p class="intro-sub">Autonomous AI products designed for individuals — each solving one problem deeply, all
+          working together seamlessly.</p>
+      </div>
+    </div>
+
+    <div class="grid-container">
+      <div class="products-grid">
+
+        <div class="card">
+          <div class="card-info">
+            <div class="card-name">Rocky</div>
+            <div class="card-tagline">Your autonomous daily operator. Takes action without being asked twice.</div>
+            <span class="card-cta">Early Access →</span>
+          </div>
+          <div class="card-demo">
+            <div class="demo-badge">Demo</div>
+            <div class="demo-placeholder">
+              <span class="demo-icon">🪨</span>
+              <span class="demo-label">Product demo coming soon</span>
+            </div>
+          </div>
+          <div class="card-features">
+            <div class="features-label">Key Features</div>
+            <div class="features-tags">
+              <span class="feature-tag">Autonomous Execution</span>
+              <span class="feature-tag">Context Memory</span>
+              <span class="feature-tag">Real-Time Telemetry</span>
+              <span class="feature-tag">Cross-Platform Sync</span>
+              <span class="feature-tag">Privacy-First Architecture</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-info">
+            <div class="card-name">Finvy</div>
+            <div class="card-tagline">Intelligent finance that tracks, predicts, and acts on your behalf.</div>
+            <span class="card-cta">Early Access →</span>
+          </div>
+          <div class="card-demo">
+            <div class="demo-badge">Demo</div>
+            <div class="demo-placeholder">
+              <span class="demo-icon">📊</span>
+              <span class="demo-label">Product demo coming soon</span>
+            </div>
+          </div>
+          <div class="card-features">
+            <div class="features-label">Key Features</div>
+            <div class="features-tags">
+              <span class="feature-tag">Spend Tracking</span>
+              <span class="feature-tag">Predictive Budgets</span>
+              <span class="feature-tag">Autonomous Actions</span>
+              <span class="feature-tag">Multi-Account Sync</span>
+              <span class="feature-tag">Bank-Grade Encryption</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-info">
+            <div class="card-name">Shopy</div>
+            <div class="card-tagline">AI-powered shopping that understands your context and preferences deeply.</div>
+            <span class="card-cta">Early Access →</span>
+          </div>
+          <div class="card-demo">
+            <div class="demo-badge">Demo</div>
+            <div class="demo-placeholder">
+              <span class="demo-icon">🛍️</span>
+              <span class="demo-label">Product demo coming soon</span>
+            </div>
+          </div>
+          <div class="card-features">
+            <div class="features-label">Key Features</div>
+            <div class="features-tags">
+              <span class="feature-tag">Contextual Discovery</span>
+              <span class="feature-tag">Preference Profiling</span>
+              <span class="feature-tag">Deal Hunting</span>
+              <span class="feature-tag">End-to-End Processing</span>
+              <span class="feature-tag">Variance Alerts</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-info">
+            <div class="card-name">Estate3D</div>
+            <div class="card-tagline">Immersive 3D property exploration powered by real-time AI analysis.</div>
+            <span class="card-cta">Early Access →</span>
+          </div>
+          <div class="card-demo">
+            <div class="demo-badge">Demo</div>
+            <div class="demo-placeholder">
+              <span class="demo-icon">🏠</span>
+              <span class="demo-label">Product demo coming soon</span>
+            </div>
+          </div>
+          <div class="card-features">
+            <div class="features-label">Key Features</div>
+            <div class="features-tags">
+              <span class="feature-tag">Spatial 3D Renders</span>
+              <span class="feature-tag">Neural Sorting</span>
+              <span class="feature-tag">Dynamic Valuations</span>
+              <span class="feature-tag">Geospatial Telemetry</span>
+              <span class="feature-tag">Virtual Staging</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-info">
+            <div class="card-name">KissAI</div>
+            <div class="card-tagline">One problem. Solved completely. No prompting, no setup, no bloat.</div>
+            <span class="card-cta">Early Access →</span>
+          </div>
+          <div class="card-demo">
+            <div class="demo-badge">Demo</div>
+            <div class="demo-placeholder">
+              <span class="demo-icon">⚡</span>
+              <span class="demo-label">Product demo coming soon</span>
+            </div>
+          </div>
+          <div class="card-features">
+            <div class="features-label">Key Features</div>
+            <div class="features-tags">
+              <span class="feature-tag">Zero-Prompt Engine</span>
+              <span class="feature-tag">Instant Initialization</span>
+              <span class="feature-tag">Domain Sandboxing</span>
+              <span class="feature-tag">Secure Pathways</span>
+              <span class="feature-tag">Modular Matrix</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <span class="site-footer-copy">© 2024 Anton IO. All rights reserved.</span>
+    <div class="site-footer-links">
+      <a href="#">Privacy</a><a href="#">Terms</a><a href="about.html#contact">Contact</a>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>
