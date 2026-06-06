@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academy — ANTON IO</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* ── MAIN VIEW ── */
+  #main-view{transition:opacity 0.3s,transform 0.3s}
+  #main-view.hidden{opacity:0;transform:translateY(-12px);pointer-events:none}
+
+  /* ── HERO ── */
+  .hero{padding:100px 64px 80px;border-bottom:1px solid var(--border)}
+  .hero-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:5px;color:var(--text-3);margin-bottom:28px}
+  .hero-headline{font-size:clamp(44px,7vw,96px);font-weight:700;letter-spacing:-4px;line-height:0.92}
+  .hero-headline em{font-style:normal;color:var(--text-2)}
+  .hero-sub{font-size:16px;color:var(--text-2);margin-top:32px;max-width:520px;line-height:1.8;font-weight:300}
+
+  /* ── COURSE CARDS GRID ── */
+  .courses-section{padding:72px 64px 100px}
+  .courses-label{font-size:10px;text-transform:uppercase;letter-spacing:4px;color:var(--text-3);margin-bottom:40px}
+  .courses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+
+  .course-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:20px;
+    overflow:hidden;cursor:pointer;
+    transition:border-color 0.25s,transform 0.25s,box-shadow 0.25s;
+    display:flex;flex-direction:column;
+  }
+  .course-card:hover{border-color:var(--text-3);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,0.3)}
+  [data-theme="light"] .course-card:hover{box-shadow:0 16px 48px rgba(0,0,0,0.1)}
+
+  .card-info{padding:28px 28px 24px}
+  .card-badge{font-size:9px;text-transform:uppercase;letter-spacing:2.5px;color:var(--text-3);margin-bottom:12px}
+  .card-name{font-size:28px;font-weight:700;letter-spacing:-0.8px;line-height:1}
+  .card-tagline{font-size:13px;color:var(--text-2);line-height:1.6;margin-top:10px}
+
+  .card-meta-row{display:flex;align-items:center;gap:12px;margin-top:20px}
+  .card-pill{font-size:10px;color:var(--text-3);border:1px solid var(--border);padding:5px 12px;border-radius:100px;letter-spacing:0.5px}
+
+  .card-visual{
+    margin:0 12px 0;border-radius:12px 12px 0 0;
+    height:180px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+    background:linear-gradient(155deg,#161616 0%,#0e0e0e 100%);
+    border:1px solid var(--border);border-bottom:none;
+    margin-top:auto;
+  }
+  [data-theme="light"] .card-visual{background:linear-gradient(155deg,#e4e4e4 0%,#ececec 100%)}
+  .card-glyph{font-size:64px;filter:grayscale(1) brightness(0.5);transition:filter 0.3s,transform 0.3s}
+  .course-card:hover .card-glyph{filter:grayscale(0.3) brightness(0.8);transform:scale(1.08) translateY(-4px)}
+  .card-enter{
+    position:absolute;bottom:16px;right:16px;
+    width:36px;height:36px;border-radius:50%;
+    background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;color:rgba(255,255,255,0.3);
+    transition:all 0.25s;
+  }
+  .course-card:hover .card-enter{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);transform:translate(2px,-2px)}
+  [data-theme="light"] .card-enter{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.1);color:rgba(0,0,0,0.3)}
+
+  /* ── DETAIL VIEW ── */
+  #detail-view{
+    position:fixed;inset:0;z-index:150;
+    background:var(--bg);overflow-y:auto;
+    opacity:0;transform:translateY(24px);pointer-events:none;
+    transition:opacity 0.35s cubic-bezier(0.16,1,0.3,1),transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  }
+  #detail-view.visible{opacity:1;transform:translateY(0);pointer-events:all}
+
+  .detail-inner{max-width:1200px;margin:0 auto;padding:40px 64px 120px}
+
+  /* Back button */
+  .back-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:11px;color:var(--text-3);letter-spacing:0.5px;
+    cursor:pointer;background:none;border:none;font-family:var(--font);
+    padding:0;margin-bottom:56px;transition:color 0.2s;
+  }
+  .back-btn:hover{color:var(--text-2)}
+  .back-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+
+  /* Detail hero */
+  .detail-hero{display:grid;grid-template-columns:1fr 340px;gap:80px;align-items:start;padding-bottom:80px;border-bottom:1px solid var(--border)}
+  .detail-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:4px;color:var(--text-3);margin-bottom:20px}
+  .detail-title{font-size:clamp(40px,6vw,80px);font-weight:700;letter-spacing:-3px;line-height:0.93}
+  .detail-title em{font-style:normal;color:var(--text-2)}
+  .detail-desc{font-size:15px;color:var(--text-2);margin-top:28px;line-height:1.85;font-weight:300;max-width:560px}
+
+  /* Enrol card */
+  .enrol-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:20px;
+    padding:32px;position:sticky;top:100px;
+  }
+  .enrol-card-label{font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--text-3);margin-bottom:24px}
+  .enrol-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+  .enrol-price{font-size:40px;font-weight:700;letter-spacing:-2px;line-height:1}
+  .enrol-original{font-size:16px;color:var(--text-3);text-decoration:line-through;letter-spacing:-0.5px}
+  .enrol-discount{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:var(--text-2);padding:3px 8px;border-radius:6px}
+  [data-theme="light"] .enrol-discount{background:rgba(0,0,0,0.05);border-color:rgba(0,0,0,0.12)}
+  .enrol-price-note{font-size:11px;color:var(--text-3);margin-bottom:28px}
+  .enrol-details{display:flex;flex-direction:column;gap:0;margin-bottom:28px}
+  .enrol-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid var(--border);font-size:12px}
+  .enrol-row:first-child{border-top:none;padding-top:0}
+  .enrol-row-label{color:var(--text-3);text-transform:uppercase;letter-spacing:1.5px;font-size:10px}
+  .enrol-row-val{color:var(--text-2);font-weight:500}
+  .enrol-btn{
+    width:100%;background:var(--text);color:var(--bg);border:none;border-radius:100px;
+    padding:14px;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+    cursor:pointer;font-family:var(--font);transition:opacity 0.2s;
+  }
+  .enrol-btn:hover{opacity:0.85}
+  .enrol-note{font-size:11px;color:var(--text-3);text-align:center;margin-top:12px}
+
+  /* Detail sections */
+  .detail-sections{margin-top:72px;display:flex;flex-direction:column;gap:72px}
+  .detail-section-label{font-size:10px;text-transform:uppercase;letter-spacing:4px;color:var(--text-3);margin-bottom:24px}
+  .detail-section-title{font-size:clamp(22px,3vw,34px);font-weight:700;letter-spacing:-1px;margin-bottom:28px}
+
+  /* Curriculum */
+  .curriculum-list{display:flex;flex-direction:column;gap:0}
+  .curriculum-week{border-top:1px solid var(--border);padding:24px 0}
+  .curriculum-week:last-child{border-bottom:1px solid var(--border)}
+  .week-header{display:flex;align-items:baseline;gap:20px;margin-bottom:12px}
+  .week-num{font-size:9px;text-transform:uppercase;letter-spacing:2.5px;color:var(--text-3);flex-shrink:0;width:56px}
+  .week-title{font-size:15px;font-weight:600;letter-spacing:-0.3px}
+  .week-topics{display:flex;flex-wrap:wrap;gap:8px;padding-left:76px}
+  .week-topic{font-size:11px;color:var(--text-2);background:var(--bg);border:1px solid var(--border);padding:5px 12px;border-radius:8px}
+  [data-theme="light"] .week-topic{background:var(--surface)}
+
+  /* Timeline */
+  .timeline-list{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--border)}
+  .timeline-item{padding:28px 24px 32px;border-right:1px solid var(--border)}
+  .timeline-item:last-child{border-right:none}
+  .t-num{font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--text-3);margin-bottom:10px}
+  .t-phase{font-size:14px;font-weight:600;letter-spacing:-0.3px;margin-bottom:6px}
+  .t-dur{font-size:12px;color:var(--text-2)}
+
+  /* What you get */
+  .outcomes-list{display:flex;flex-direction:column;gap:0}
+  .outcome-item{display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-top:1px solid var(--border)}
+  .outcome-item:last-child{border-bottom:1px solid var(--border)}
+  .outcome-check{width:20px;height:20px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+  .outcome-check svg{width:10px;height:10px;stroke:var(--text-2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .outcome-text{font-size:13px;color:var(--text-2);line-height:1.6}
+</style>
+</head>
+<body>
+
+<nav class="nav-inner">
+  <a href="index.html" class="nav-logo">/NTONIO</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="academy.html" class="active">Academy</a></li>
+      <li><a href="about.html#contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle">
+      <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     MAIN VIEW — course cards
+════════════════════════════════════════ -->
+<div id="main-view">
+  <section class="hero">
+    <div class="hero-eyebrow">Academy</div>
+    <h1 class="hero-headline">Learn to build<br><em>what's next.</em></h1>
+    <p class="hero-sub">Internship-led programs built by practitioners. Three courses that teach the skills that actually matter in the AI-native era — from agentic architecture to production deployment.</p>
+  </section>
+
+  <div class="courses-section">
+    <div class="courses-label">Internship Programs</div>
+    <div class="courses-grid">
+
+      <!-- CARD 1 -->
+      <div class="course-card" onclick="openDetail('genai')">
+        <div class="card-info">
+          <div class="card-badge">01 — Internship Bootcamp</div>
+          <div class="card-name">GenAI &<br>Agentic AI</div>
+          <div class="card-tagline">Build autonomous AI agents from the ground up. From LLMs to multi-agent production systems.</div>
+          <div class="card-meta-row">
+            <span class="card-pill">1.5 Months</span>
+            <span class="card-pill">Intensive</span>
+          </div>
+        </div>
+        <div class="card-visual">
+          <div class="card-glyph">🤖</div>
+          <div class="card-enter">→</div>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="course-card" onclick="openDetail('softskills')">
+        <div class="card-info">
+          <div class="card-badge">02 — Internship Bootcamp</div>
+          <div class="card-name">Soft<br>Skills</div>
+          <div class="card-tagline">Communication, product thinking, and leadership for AI-native teams. The human layer that makes systems work.</div>
+          <div class="card-meta-row">
+            <span class="card-pill">4 Weeks</span>
+            <span class="card-pill">Bootcamp</span>
+          </div>
+        </div>
+        <div class="card-visual">
+          <div class="card-glyph">🧠</div>
+          <div class="card-enter">→</div>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="course-card" onclick="openDetail('nlp')">
+        <div class="card-info">
+          <div class="card-badge">03 — Internship Course</div>
+          <div class="card-name">Neuro<br>Linguistic<br>Programming</div>
+          <div class="card-tagline">Reprogram your mindset, communication patterns, and behaviours to operate at your highest potential.</div>
+          <div class="card-meta-row">
+            <span class="card-pill">Self-paced</span>
+            <span class="card-pill">Course</span>
+          </div>
+        </div>
+        <div class="card-visual">
+          <div class="card-glyph">🧬</div>
+          <div class="card-enter">→</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     DETAIL VIEW — slides in on card click
+════════════════════════════════════════ -->
+<div id="detail-view">
+  <div class="detail-inner">
+
+    <button class="back-btn" onclick="closeDetail()">
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to Academy
+    </button>
+
+    <!-- Injected by JS -->
+    <div id="detail-content"></div>
+
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+  // ── Course data ──
+  const courses = {
+    genai: {
+      badge: '01 — Internship Bootcamp',
+      title: 'GenAI &<br><em>Agentic AI</em>',
+      desc: 'The flagship bootcamp. 1.5 months of intensive, hands-on training in building autonomous AI agents from the ground up. Covers everything from LLM fundamentals and API development with FastAPI, through to multi-agent orchestration and production deployment.',
+      price: '₹500',
+      originalPrice: '₹5,000',
+      discount: '90% OFF',
+      priceNote: 'internship launch price · limited spots',
+      duration: '1.5 Months',
+      format: 'Intensive Bootcamp',
+      cohort: 'Live Cohort',
+      certificate: 'Yes — upon completion',
+      curriculum: [
+        { num: 'Week 1', title: 'Foundations & APIs', topics: ['LLM Architecture', 'Prompt Engineering', 'REST API Basics', 'FastAPI Fundamentals', 'Tokens & Context Windows'] },
+        { num: 'Week 2', title: 'Building with FastAPI', topics: ['FastAPI Routes & Models', 'Pydantic Schemas', 'Async Endpoints', 'Integrating LLM APIs', 'Authentication Basics'] },
+        { num: 'Week 3', title: 'Agentic Systems', topics: ['Tool Use & Function Calling', 'Agent Loops', 'ReAct Pattern', 'Planning & Reasoning', 'Error Recovery'] },
+        { num: 'Week 4', title: 'Memory & Multi-Agent', topics: ['Short-term Memory', 'Long-term Memory', 'Vector Databases', 'Multi-Agent Orchestration', 'Agent Coordination'] },
+        { num: 'Week 5–6', title: 'Production & Capstone', topics: ['Spec-Driven Development', 'Testing AI Systems', 'Monitoring & Observability', 'Cost Optimisation', 'Capstone Project'] },
+      ],
+      timeline: [
+        { num: 'Week 1–2', phase: 'Foundations & FastAPI', dur: '2 Weeks' },
+        { num: 'Week 3', phase: 'Agentic Patterns', dur: '1 Week' },
+        { num: 'Week 4', phase: 'Multi-Agent Systems', dur: '1 Week' },
+        { num: 'Week 5–6', phase: 'Ship & Graduate', dur: '2 Weeks' },
+      ],
+      outcomes: [
+        'Build and expose AI agents as production-ready APIs using FastAPI',
+        'Design multi-agent orchestration systems for real workloads',
+        'Implement memory — short-term, long-term, and episodic — in production',
+        'Apply spec-driven development methodology to AI product builds',
+        'Monitor, debug, and optimise LLM-based systems in production',
+        'Leave with a portfolio-ready capstone agent project',
+      ],
+    },
+    softskills: {
+      badge: '02 — Internship Bootcamp',
+      title: 'Soft<br><em>Skills</em>',
+      desc: 'Communication, product thinking, and leadership for AI-native teams. The human layer that makes autonomous systems work in practice. This bootcamp equips you with the frameworks, vocabulary, and instincts needed to lead, collaborate, and ship in an AI-first environment.',
+      price: '₹400',
+      originalPrice: '₹4,000',
+      discount: '90% OFF',
+      priceNote: 'internship launch price · limited spots',
+      duration: '4 Weeks',
+      format: 'Bootcamp',
+      cohort: 'Small Group',
+      certificate: 'Yes — upon completion',
+      curriculum: [
+        { num: 'Module 1', title: 'Communication', topics: ['Writing for Clarity', 'Async-First Communication', 'Technical Storytelling', 'Stakeholder Updates'] },
+        { num: 'Module 2', title: 'Product Thinking', topics: ['Problem Definition', 'Spec Writing', 'Prioritisation Frameworks', 'User Insight', 'Outcome vs Output'] },
+        { num: 'Module 3', title: 'Leadership & Collaboration', topics: ['Decision Making', 'Giving & Receiving Feedback', 'Working with AI Teams', 'Conflict Resolution'] },
+        { num: 'Module 4', title: 'AI-Native Work Practices', topics: ['Prompting as a Skill', 'Human-AI Collaboration', 'Delegation Patterns', 'Quality Control'] },
+      ],
+      timeline: [
+        { num: 'Module 1', phase: 'Communication', dur: '1 Week' },
+        { num: 'Module 2', phase: 'Product Thinking', dur: '1 Week' },
+        { num: 'Module 3', phase: 'Leadership', dur: '1 Week' },
+        { num: 'Module 4', phase: 'AI-Native Practices', dur: '1 Week' },
+      ],
+      outcomes: [
+        'Write and communicate with clarity and intention across async environments',
+        'Define problems precisely and write specs that teams can build from',
+        'Lead and contribute effectively in AI-native product teams',
+        'Give and receive feedback in ways that accelerate team performance',
+        'Apply product thinking to prioritise work and validate outcomes',
+        'Work fluently alongside AI systems as a collaborative peer',
+      ],
+    },
+    nlp: {
+      badge: '03 — Internship Course',
+      title: 'Neuro Linguistic<br><em>Programming</em>',
+      desc: 'A practical course in reprogramming the patterns behind how you think, communicate, and behave. NLP gives you a set of tools to understand the structure of your own experience — and change it. Applied to leadership, communication, and high performance in an AI-native world.',
+      price: '₹300',
+      originalPrice: '₹3,000',
+      discount: '90% OFF',
+      priceNote: 'internship launch price · limited spots',
+      duration: 'Self-paced',
+      format: 'Course',
+      cohort: 'On-demand',
+      certificate: 'Yes — upon completion',
+      curriculum: [
+        { num: 'Part 1', title: 'Foundations of NLP', topics: ['Origins & Principles', 'The NLP Communication Model', 'Representational Systems', 'Rapport Building', 'Presuppositions of NLP'] },
+        { num: 'Part 2', title: 'Language & Influence', topics: ['Meta Model', 'Milton Model', 'Reframing', 'Language Patterns', 'Persuasion Without Manipulation'] },
+        { num: 'Part 3', title: 'Mindset & Behaviour', topics: ['Anchoring', 'Submodalities', 'Beliefs & Values', 'Parts Integration', 'Overcoming Limiting Beliefs'] },
+        { num: 'Part 4', title: 'Applied NLP', topics: ['NLP in Leadership', 'High-Performance States', 'Goal Setting with NLP', 'Modelling Excellence', 'Personal Change Work'] },
+      ],
+      timeline: [
+        { num: 'Part 1', phase: 'Foundations', dur: '~1 Week' },
+        { num: 'Part 2', phase: 'Language & Influence', dur: '~1 Week' },
+        { num: 'Part 3', phase: 'Mindset', dur: '~1 Week' },
+        { num: 'Part 4', phase: 'Applied NLP', dur: '~1 Week' },
+      ],
+      outcomes: [
+        'Understand the structure of your own thinking and communication patterns',
+        'Build deep rapport quickly and communicate with precision and influence',
+        'Identify and dissolve limiting beliefs that block high performance',
+        'Use anchoring and state management to perform under pressure',
+        'Apply NLP frameworks to leadership, coaching, and team dynamics',
+        'Model excellence — learn how top performers think and replicate it',
+      ],
+    },
+  };
+
+  function openDetail(id) {
+    const c = courses[id];
+    document.getElementById('detail-content').innerHTML = `
+      <div class="detail-hero">
+        <div>
+          <div class="detail-eyebrow">${c.badge}</div>
+          <h1 class="detail-title">${c.title}</h1>
+          <p class="detail-desc">${c.desc}</p>
+        </div>
+        <div class="enrol-card">
+          <div class="enrol-card-label">Enrol</div>
+          <div class="enrol-price-row">
+            <span class="enrol-price">${c.price}</span>
+            <span class="enrol-original">${c.originalPrice}</span>
+            <span class="enrol-discount">${c.discount}</span>
+          </div>
+          <div class="enrol-price-note">${c.priceNote}</div>
+          <div class="enrol-details">
+            <div class="enrol-row"><span class="enrol-row-label">Duration</span><span class="enrol-row-val">${c.duration}</span></div>
+            <div class="enrol-row"><span class="enrol-row-label">Format</span><span class="enrol-row-val">${c.format}</span></div>
+            <div class="enrol-row"><span class="enrol-row-label">Cohort</span><span class="enrol-row-val">${c.cohort}</span></div>
+            <div class="enrol-row"><span class="enrol-row-label">Certificate</span><span class="enrol-row-val">${c.certificate}</span></div>
+          </div>
+          <button class="enrol-btn">Apply Now →</button>
+          <p class="enrol-note">Internship launch price · Limited spots</p>
+        </div>
+      </div>
+
+      <div class="detail-sections">
+
+        <div>
+          <div class="detail-section-label">Curriculum</div>
+          <div class="detail-section-title">What you'll learn</div>
+          <div class="curriculum-list">
+            ${c.curriculum.map(w => `
+              <div class="curriculum-week">
+                <div class="week-header">
+                  <span class="week-num">${w.num}</span>
+                  <span class="week-title">${w.title}</span>
+                </div>
+                <div class="week-topics">
+                  ${w.topics.map(t => `<span class="week-topic">${t}</span>`).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div>
+          <div class="detail-section-label">Timeline</div>
+          <div class="detail-section-title">How it's structured</div>
+          <div class="timeline-list">
+            ${c.timeline.map(t => `
+              <div class="timeline-item">
+                <div class="t-num">${t.num}</div>
+                <div class="t-phase">${t.phase}</div>
+                <div class="t-dur">${t.dur}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div>
+          <div class="detail-section-label">Outcomes</div>
+          <div class="detail-section-title">What you'll walk away with</div>
+          <div class="outcomes-list">
+            ${c.outcomes.map(o => `
+              <div class="outcome-item">
+                <div class="outcome-check">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="outcome-text">${o}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    document.getElementById('main-view').classList.add('hidden');
+    const dv = document.getElementById('detail-view');
+    dv.classList.add('visible');
+    dv.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }
+
+  function closeDetail() {
+    document.getElementById('detail-view').classList.remove('visible');
+    document.getElementById('main-view').classList.remove('hidden');
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
