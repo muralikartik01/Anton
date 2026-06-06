@@ -362,6 +362,7 @@
   function goTo(idx) {
     current = Math.max(0, Math.min(idx, total - 1));
     const card = track.children[current];
+    if (!card) return;
     track.scrollTo({ left: card.offsetLeft - 48, behavior: 'smooth' });
     dots.forEach((d, i) => d.classList.toggle('active', i === current));
     prev.disabled = current === 0;
@@ -381,6 +382,7 @@
   });
 
   track.addEventListener('scroll', () => {
+    if (!track.children[0]) return;
     const idx = Math.round(track.scrollLeft / (track.children[0].offsetWidth + 16));
     if (idx !== current && idx >= 0 && idx < total) {
       current = idx;
