@@ -94,6 +94,42 @@
       });
   }
 
+  // ── Draw nodes ──
+  function drawNodes(proj) {
+    nodes
+      .map((n, i) => ({ n, i, p: proj[i] }))
+      .sort((a, b) => a.p.depth - b.p.depth)
+      .forEach(({ n, p }) => {
+        const falloff = centerFalloff(p.sx, p.sy);
+        if (falloff < 0.02) return;
+
+        const baseAlpha = isDark()
+          ? 0.28 + p.depth * 0.55
+          : 0.32 + p.depth * 0.50;
+        const alpha = Math.min(1, (baseAlpha + n.bright * 0.5) * falloff);
+        const size  = (p.depth * 6.0 + 1.5) * (0.4 + falloff * 0.6);
+
+        // Glow halo when activated
+        if (n.bright > 0.05) {
+          const glowRGB = isDark() ? '220,230,255' : '10,10,40';
+          const gr = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, size * 5);
+          gr.addColorStop(0, `rgba(${glowRGB},${n.bright * p.depth * falloff * (isDark() ? 0.45 : 0.20)})`);
+          gr.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.beginPath();
+          ctx.arc(p.sx, p.sy, size * 5, 0, Math.PI * 2);
+          ctx.fillStyle = gr;
+          ctx.fill();
+        }
+
+        ctx.beginPath();
+        ctx.arc(p.sx, p.sy, size, 0, Math.PI * 2);
+        ctx.fillStyle = isDark()
+          ? `rgba(255,255,255,${alpha})`
+          : `rgba(15,15,15,${alpha})`;
+        ctx.fill();
+      });
+  }
+
   // ── Resize ──
   function resize() {
     W = canvas.width  = canvas.offsetWidth;
@@ -118,5 +154,6 @@
 
     const proj = nodes.map(project);
     drawEdges(proj);
+    drawNodes(proj);
   })();
 })();
