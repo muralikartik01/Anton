@@ -130,6 +130,58 @@
       });
   }
 
+  // ── Fire a pulse along a random edge ──
+  function firePulse(fromNodeIndex) {
+    const myEdges = edges.filter(e => e.i === fromNodeIndex || e.j === fromNodeIndex);
+    if (!myEdges.length) return;
+    myEdges
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 2 + Math.floor(Math.random() * 2))
+      .forEach(e => {
+        pulses.push({
+          from:  e.i === fromNodeIndex ? e.i : e.j,
+          to:    e.i === fromNodeIndex ? e.j : e.i,
+          prog:  0,
+          speed: 0.016 + Math.random() * 0.018
+        });
+      });
+  }
+
+  // ── Draw in-flight pulses ──
+  function drawPulses(proj) {
+    for (let i = pulses.length - 1; i >= 0; i--) {
+      const p = pulses[i];
+      p.prog = Math.min(1, p.prog + p.speed);
+
+      const a  = proj[p.from], b = proj[p.to];
+      const px = a.sx + (b.sx - a.sx) * p.prog;
+      const py = a.sy + (b.sy - a.sy) * p.prog;
+      const pd = a.depth + (b.depth - a.depth) * p.prog;
+      const fo = centerFalloff(px, py);
+      const ps = (pd * 4.5 + 1.5) * Math.max(0.3, fo);
+
+      if (fo > 0.05) {
+        const glowRGB = isDark() ? '220,230,255' : '10,10,40';
+        const g = ctx.createRadialGradient(px, py, 0, px, py, ps * 5);
+        g.addColorStop(0, `rgba(${glowRGB},${pd * fo * (isDark() ? 0.45 : 0.22)})`);
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.beginPath(); ctx.arc(px, py, ps * 5, 0, Math.PI * 2);
+        ctx.fillStyle = g; ctx.fill();
+
+        ctx.beginPath(); ctx.arc(px, py, ps, 0, Math.PI * 2);
+        ctx.fillStyle = isDark()
+          ? `rgba(255,255,255,${Math.min(1, pd * 0.9 + 0.1)})`
+          : `rgba(15,15,15,${Math.min(1, pd * 0.9 + 0.1)})`;
+        ctx.fill();
+      }
+
+      if (p.prog >= 1) {
+        nodes[p.to].bright = Math.min(1, nodes[p.to].bright + 0.8);
+        pulses.splice(i, 1);
+      }
+    }
+  }
+
   // ── Resize ──
   function resize() {
     W = canvas.width  = canvas.offsetWidth;
@@ -152,8 +204,14 @@
       n.bright = Math.max(0, n.bright - 0.015);
     });
 
+    // Ambient pulses (~5% chance per frame)
+    if (Math.random() < 0.05) {
+      firePulse(Math.floor(Math.random() * NODE_COUNT));
+    }
+
     const proj = nodes.map(project);
     drawEdges(proj);
+    drawPulses(proj);
     drawNodes(proj);
   })();
 })();
