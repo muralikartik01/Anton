@@ -59,6 +59,41 @@
     return t * t * (3 - 2 * t); // smoothstep
   }
 
+  // ── Theme ──
+  function isDark() {
+    return document.documentElement.getAttribute('data-theme') !== 'light';
+  }
+
+  // ── Draw edges ──
+  function drawEdges(proj) {
+    edges
+      .slice()
+      .sort((a, b) => {
+        const da = (proj[a.i].depth + proj[a.j].depth) / 2;
+        const db = (proj[b.i].depth + proj[b.j].depth) / 2;
+        return da - db;
+      })
+      .forEach(e => {
+        const a = proj[e.i], b = proj[e.j];
+        const avgDepth = (a.depth + b.depth) / 2;
+        const midFalloff = centerFalloff((a.sx + b.sx) / 2, (a.sy + b.sy) / 2);
+        const baseAlpha = isDark()
+          ? 0.08 + avgDepth * 0.30
+          : 0.12 + avgDepth * 0.34;
+        const alpha = midFalloff * baseAlpha * (1 - e.d / CONN_DIST);
+        if (alpha < 0.008) return;
+
+        ctx.beginPath();
+        ctx.moveTo(a.sx, a.sy);
+        ctx.lineTo(b.sx, b.sy);
+        ctx.strokeStyle = isDark()
+          ? `rgba(255,255,255,${alpha})`
+          : `rgba(15,15,15,${alpha})`;
+        ctx.lineWidth = avgDepth * 1.2 + 0.4;
+        ctx.stroke();
+      });
+  }
+
   // ── Resize ──
   function resize() {
     W = canvas.width  = canvas.offsetWidth;
@@ -67,9 +102,21 @@
   resize();
   window.addEventListener('resize', resize, { passive: true });
 
-  // ── Stub loop (will be filled in later tasks) ──
+  // ── Animation loop ──
   (function loop() {
     requestAnimationFrame(loop);
     ctx.clearRect(0, 0, W, H);
+
+    // Drift nodes
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy; n.z += n.vz;
+      if (Math.abs(n.x) > 1.3) n.vx *= -1;
+      if (Math.abs(n.y) > 0.9) n.vy *= -1;
+      if (n.z < -0.6 || n.z > 1.6) n.vz *= -1;
+      n.bright = Math.max(0, n.bright - 0.015);
+    });
+
+    const proj = nodes.map(project);
+    drawEdges(proj);
   })();
 })();
