@@ -190,9 +190,33 @@
   resize();
   window.addEventListener('resize', resize, { passive: true });
 
+  // ── Mouse: trigger pulses from nearest node ──
+  let mouseX = -9999, mouseY = -9999, lastMouseTrigger = 0, elapsed = 0;
+
+  const heroEl = document.getElementById('hero');
+  if (heroEl) {
+    heroEl.addEventListener('mousemove', e => {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+    }, { passive: true });
+    heroEl.addEventListener('mouseleave', () => {
+      mouseX = -9999; mouseY = -9999;
+    }, { passive: true });
+  }
+
+  // ── Pause when hero is off-screen ──
+  let visible = true;
+  new IntersectionObserver(entries => {
+    visible = entries[0].isIntersecting;
+  }, { threshold: 0 }).observe(canvas);
+
   // ── Animation loop ──
   (function loop() {
     requestAnimationFrame(loop);
+    if (!visible) return;
+
+    elapsed += 0.012;
     ctx.clearRect(0, 0, W, H);
 
     // Drift nodes
@@ -204,12 +228,28 @@
       n.bright = Math.max(0, n.bright - 0.015);
     });
 
-    // Ambient pulses (~5% chance per frame)
+    // Ambient pulses
     if (Math.random() < 0.05) {
       firePulse(Math.floor(Math.random() * NODE_COUNT));
     }
 
     const proj = nodes.map(project);
+
+    // Mouse-triggered pulses (throttled to 0.35s)
+    if (mouseX > 0 && elapsed - lastMouseTrigger > 0.35) {
+      let best = -1, bestD = Infinity;
+      proj.forEach((p, i) => {
+        const dx = p.sx - mouseX, dy = p.sy - mouseY;
+        const d  = dx * dx + dy * dy;
+        if (d < bestD) { bestD = d; best = i; }
+      });
+      if (best >= 0 && Math.sqrt(bestD) < 80) {
+        firePulse(best);
+        nodes[best].bright = 1;
+        lastMouseTrigger = elapsed;
+      }
+    }
+
     drawEdges(proj);
     drawPulses(proj);
     drawNodes(proj);
