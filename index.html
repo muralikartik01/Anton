@@ -13,7 +13,6 @@
     position: relative; min-height: 100vh; overflow: hidden;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center; padding: 80px 48px;
-    border-bottom: 1px solid var(--border);
   }
   #hero-canvas {
     position: absolute; inset: 0; width: 100%; height: 100%;
@@ -51,64 +50,71 @@
   }
   .hero-actions.visible { opacity: 1; transform: translateY(0); }
 
-  /* ── TAGLINE STRIP ── */
-  .tagline-strip {
-    padding: 18px 48px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;
+  /* ── PRODUCTS PREVIEW ── */
+  .preview-section {}
+  .preview-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding: 64px 48px 40px;
   }
-  .tagline-strip span { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--text-3); }
-  .tagline-strip .dot { color: var(--border); }
+  .preview-header-left {}
+  .preview-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 4px; color: var(--text-3); margin-bottom: 14px; }
+  .preview-title { font-size: clamp(28px,4vw,52px); font-weight: 700; letter-spacing: -2px; line-height: 1; }
+  .preview-title em { font-style: normal; color: var(--text-2); }
+  .preview-link {
+    font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-2); text-decoration: none; border: 1px solid var(--border);
+    padding: 9px 20px; border-radius: 100px; transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .preview-link:hover { color: var(--text); border-color: var(--text-3); }
 
-  /* ── PRODUCTS GRID ── */
-  .products-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    border-bottom: 1px solid var(--border);
+  .home-products-intro {
+    padding: 72px 48px 48px;
+    display: flex; justify-content: space-between; align-items: flex-end;
   }
-  .product-card {
-    padding: 36px 36px 44px; border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border); cursor: pointer; position: relative;
-    transition: background 0.2s; opacity: 0; transform: translateY(20px);
-    text-decoration: none; color: var(--text); display: block;
+  .home-grid-container { padding: 0 48px 64px; }
+  .home-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    width: 100%;
   }
-  .product-card.visible {
-    opacity: 1; transform: none;
-    transition: opacity 0.55s ease, transform 0.55s ease, background 0.2s;
-  }
-  .product-card:hover { background: #0f0f0f; }
-  [data-theme="light"] .product-card:hover { background: var(--surface); }
-  .product-card:nth-child(3n) { border-right: none; }
-  .product-card:nth-last-child(-n+3) { border-bottom: none; }
-  .p-num  { font-size: 9px;  color: var(--text-3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
-  .p-name { font-size: 22px; font-weight: 600; letter-spacing: -0.5px; }
-  .p-tag  { font-size: 11px; color: var(--text-2); margin-top: 6px; }
-  .p-desc { font-size: 12px; color: var(--text-3); margin-top: 10px; line-height: 1.7; }
-  .p-arrow {
-    position: absolute; bottom: 28px; right: 28px;
-    font-size: 14px; color: var(--text-3);
-    transition: color 0.2s, transform 0.2s;
-  }
-  .product-card:hover .p-arrow { color: var(--text-2); transform: translateX(3px); }
 
-  /* ── ABOUT ── */
-  .about-section { display: grid; grid-template-columns: 1fr 1.6fr; border-bottom: 1px solid var(--border); }
-  .about-left  { padding: 64px 48px; border-right: 1px solid var(--border); }
-  .about-right { padding: 64px 48px; }
-  .about-body  { font-size: 14px; color: var(--text-2); line-height: 1.85; }
-  .about-body + .about-body { margin-top: 20px; }
-  .about-body strong { color: var(--text); font-weight: 500; }
+  /* ── ABOUT PREVIEW ── */
+  .about-preview { display: grid; grid-template-columns: 1fr 1.5fr; }
+  .about-preview-left { padding: 64px 48px; display: flex; flex-direction: column; justify-content: space-between; }
+  .about-preview-right { padding: 64px 48px; }
+  .about-stats { display: flex; flex-direction: column; gap: 32px; margin-top: 40px; }
+  .about-stat-val { font-size: clamp(32px,4vw,52px); font-weight: 700; letter-spacing: -2px; line-height: 1; }
+  .about-stat-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-3); margin-top: 6px; }
+  .about-manifesto { font-size: 15px; color: var(--text-2); line-height: 1.9; font-weight: 300; }
+  .about-manifesto + .about-manifesto { margin-top: 20px; }
+  .about-manifesto strong { color: var(--text); font-weight: 500; }
+  .about-pull {
+    font-size: clamp(16px,2vw,22px); font-weight: 300; color: var(--text-2); line-height: 1.5;
+    letter-spacing: -0.3px; padding-left: 0;
+    margin: 32px 0;
+  }
 
-  /* ── HOW WE OPERATE ── */
-  .how { border-bottom: 1px solid var(--border); }
-  .how-header { padding: 48px 48px 0; }
-  .how-steps { display: grid; grid-template-columns: repeat(4,1fr); margin-top: 40px; }
-  .how-step { padding: 32px 36px; border-right: 1px solid var(--border); border-top: 1px solid var(--border); }
-  .how-step:last-child { border-right: none; }
-  .step-num  { font-size: 9px;  color: var(--text-3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
-  .step-name { font-size: 16px; font-weight: 600; letter-spacing: -0.3px; }
-  .step-desc { font-size: 12px; color: var(--text-3); margin-top: 8px; line-height: 1.7; }
+  /* ── ACADEMY PREVIEW ── */
+  .academy-courses { display: grid; grid-template-columns: repeat(3,1fr); padding: 0 48px 64px; gap: 20px; }
+  .academy-course {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 28px 28px 32px; text-decoration: none; color: var(--text);
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    display: flex; flex-direction: column;
+  }
+  .academy-course:hover { border-color: var(--text-3); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.2); }
+  [data-theme="light"] .academy-course:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+  .ac-glyph { font-size: 36px; margin-bottom: 20px; filter: grayscale(1) brightness(0.5); transition: filter 0.3s; }
+  .academy-course:hover .ac-glyph { filter: grayscale(0.3) brightness(0.8); }
+  .ac-badge { font-size: 9px; text-transform: uppercase; letter-spacing: 2.5px; color: var(--text-3); margin-bottom: 10px; }
+  .ac-name { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.1; }
+  .ac-desc { font-size: 12px; color: var(--text-2); line-height: 1.65; margin-top: 10px; flex: 1; }
+  .ac-pill { font-size: 10px; color: var(--text-3); border: 1px solid var(--border); padding: 5px 12px; border-radius: 100px; margin-top: 20px; align-self: flex-start; }
 
   /* ── CTA / WAITLIST ── */
-  .cta { padding: 100px 48px; text-align: center; border-bottom: 1px solid var(--border); }
+  .cta { padding: 100px 48px; text-align: center; }
   .cta-title { font-size: clamp(30px, 4.5vw, 64px); font-weight: 700; letter-spacing: -2px; }
   .cta-sub   { font-size: 13px; color: var(--text-2); margin-top: 14px; }
   .cta-form  {
@@ -135,7 +141,7 @@
 
 <nav id="nav">
   <a href="index.html" class="nav-logo">
-    <span>/</span><span id="logo-nton">NTONI</span><span>O</span>
+    <span id="logo-nton">ANTON </span><span>/</span><span>O</span>
   </a>
   <div class="nav-right">
     <ul class="nav-links">
@@ -163,72 +169,250 @@
   </div>
 </section>
 
-<div class="tagline-strip reveal">
-  <span>Redesigning Possibilities</span><span class="dot">·</span>
-  <span>Spec-Driven Development</span><span class="dot">·</span>
-  <span>Autonomous AI Products</span><span class="dot">·</span>
-  <span>Hyper-Individualized Solutions</span>
-</div>
 
-<div id="products">
-  <div class="section-header reveal" style="padding:56px 48px 32px;border-bottom:1px solid var(--border)">
-    <div class="section-label" style="margin-bottom:12px">Products</div>
-    <h2 class="section-title">Six products.<br><em>One ecosystem.</em></h2>
+<!-- PRODUCTS PREVIEW -->
+<section class="preview-section">
+  <div class="home-products-intro reveal">
+    <div>
+      <div class="preview-eyebrow">Products</div>
+      <h2 class="preview-title">Five products.<br><em>One ecosystem.</em></h2>
+      <p style="font-size:14px;color:var(--text-2);margin-top:18px;max-width:480px;line-height:1.75;font-weight:300">Autonomous AI products designed for individuals — each solving one problem deeply, all working together seamlessly.</p>
+    </div>
+    <a href="products.html" class="preview-link">Explore All →</a>
   </div>
-  <div class="products-grid" id="productsGrid">
-    <a class="product-card" href="products.html"><div class="p-num">01</div><div class="p-name">Rocky</div><div class="p-tag">AI Assistant</div><div class="p-desc">Autonomous daily task management. Takes action without constant prompting.</div><span class="p-arrow">→</span></a>
-    <a class="product-card" href="products.html"><div class="p-num">02</div><div class="p-name">Finvy</div><div class="p-tag">Finance AI</div><div class="p-desc">Intelligent personal finance — tracks, predicts, and acts on your behalf.</div><span class="p-arrow">→</span></a>
-    <a class="product-card" href="products.html"><div class="p-num">03</div><div class="p-name">Shopy</div><div class="p-tag">Commerce AI</div><div class="p-desc">AI-powered shopping that understands context and preference deeply.</div><span class="p-arrow">→</span></a>
-    <a class="product-card" href="products.html"><div class="p-num">04</div><div class="p-name">Estate3D</div><div class="p-tag">Property AI</div><div class="p-desc">Immersive 3D property exploration powered by real-time AI analysis.</div><span class="p-arrow">→</span></a>
-    <a class="product-card" href="products.html"><div class="p-num">05</div><div class="p-name">KissAI</div><div class="p-tag">Autonomous AI</div><div class="p-desc">Hyper-focused AI that solves one acute problem — simply and completely.</div><span class="p-arrow">→</span></a>
-    <a class="product-card" href="academy.html" style="background:#0d0d0d"><div class="p-num">06 — Education</div><div class="p-name">Academy</div><div class="p-tag">Courses & Bootcamps</div><div class="p-desc">GenAI & Agentic AI · Soft Skills · NLP. Learn to build with autonomous AI.</div><span class="p-arrow">→</span></a>
+  <div class="home-grid-container">
+  <div class="home-products-grid">
+    <a class="card" href="products.html" style="text-decoration:none;color:inherit">
+      <div class="card-info">
+        <div class="card-name">Rocky</div>
+        <div class="card-tagline">Your autonomous daily operator. Takes action without being asked twice.</div>
+        <span class="card-cta">Early Access →</span>
+      </div>
+      <div class="card-demo">
+        <div class="demo-badge">Demo</div>
+        <div class="demo-placeholder">
+          <span class="demo-icon">🪨</span>
+          <span class="demo-label">Product demo coming soon</span>
+        </div>
+      </div>
+      <div class="card-features">
+        <div class="features-label">Key Features</div>
+        <div class="features-tags">
+          <span class="feature-tag">Autonomous Execution</span>
+          <span class="feature-tag">Context Memory</span>
+          <span class="feature-tag">Real-Time Telemetry</span>
+        </div>
+      </div>
+    </a>
+    <a class="card" href="products.html" style="text-decoration:none;color:inherit">
+      <div class="card-info">
+        <div class="card-name">Finvy</div>
+        <div class="card-tagline">Intelligent finance that tracks, predicts, and acts on your behalf.</div>
+        <span class="card-cta">Early Access →</span>
+      </div>
+      <div class="card-demo">
+        <div class="demo-badge">Demo</div>
+        <div class="demo-placeholder">
+          <span class="demo-icon">📊</span>
+          <span class="demo-label">Product demo coming soon</span>
+        </div>
+      </div>
+      <div class="card-features">
+        <div class="features-label">Key Features</div>
+        <div class="features-tags">
+          <span class="feature-tag">Spend Tracking</span>
+          <span class="feature-tag">Predictive Budgets</span>
+          <span class="feature-tag">Multi-Account Sync</span>
+        </div>
+      </div>
+    </a>
+    <a class="card" href="products.html" style="text-decoration:none;color:inherit">
+      <div class="card-info">
+        <div class="card-name">Shopy</div>
+        <div class="card-tagline">AI-powered shopping that understands your context and preferences deeply.</div>
+        <span class="card-cta">Early Access →</span>
+      </div>
+      <div class="card-demo">
+        <div class="demo-badge">Demo</div>
+        <div class="demo-placeholder">
+          <span class="demo-icon">🛍️</span>
+          <span class="demo-label">Product demo coming soon</span>
+        </div>
+      </div>
+      <div class="card-features">
+        <div class="features-label">Key Features</div>
+        <div class="features-tags">
+          <span class="feature-tag">Contextual Discovery</span>
+          <span class="feature-tag">Deal Hunting</span>
+          <span class="feature-tag">Preference Profiling</span>
+        </div>
+      </div>
+    </a>
+    <a class="card" href="products.html" style="text-decoration:none;color:inherit">
+      <div class="card-info">
+        <div class="card-name">Estate3D</div>
+        <div class="card-tagline">Immersive 3D property exploration powered by real-time AI analysis.</div>
+        <span class="card-cta">Early Access →</span>
+      </div>
+      <div class="card-demo">
+        <div class="demo-badge">Demo</div>
+        <div class="demo-placeholder">
+          <span class="demo-icon">🏠</span>
+          <span class="demo-label">Product demo coming soon</span>
+        </div>
+      </div>
+      <div class="card-features">
+        <div class="features-label">Key Features</div>
+        <div class="features-tags">
+          <span class="feature-tag">Spatial 3D Renders</span>
+          <span class="feature-tag">Dynamic Valuations</span>
+          <span class="feature-tag">Virtual Staging</span>
+        </div>
+      </div>
+    </a>
+    <a class="card" href="products.html" style="text-decoration:none;color:inherit">
+      <div class="card-info">
+        <div class="card-name">KissAI</div>
+        <div class="card-tagline">One problem. Solved completely. No prompting, no setup, no bloat.</div>
+        <span class="card-cta">Early Access →</span>
+      </div>
+      <div class="card-demo">
+        <div class="demo-badge">Demo</div>
+        <div class="demo-placeholder">
+          <span class="demo-icon">⚡</span>
+          <span class="demo-label">Product demo coming soon</span>
+        </div>
+      </div>
+      <div class="card-features">
+        <div class="features-label">Key Features</div>
+        <div class="features-tags">
+          <span class="feature-tag">Zero-Prompt Engine</span>
+          <span class="feature-tag">Instant Initialization</span>
+          <span class="feature-tag">Domain Sandboxing</span>
+        </div>
+      </div>
+    </a>
   </div>
-</div>
-
-<section class="about-section" id="about">
-  <div class="about-left reveal">
-    <div class="section-label" style="margin-bottom:12px">About</div>
-    <h2 class="section-title" style="font-size:clamp(22px,2.5vw,34px)">Advanced AI.<br><em>Est. 2024.</em></h2>
-    <p style="font-size:12px;color:var(--text-3);margin-top:20px;line-height:1.8">An AI-native product company pioneering spec-driven, autonomous development.</p>
-  </div>
-  <div class="about-right reveal" style="transition-delay:0.12s">
-    <p class="about-body">At Anton IO, we don't just build software — we engineer autonomy. By operating as an <strong>AI-native entity</strong>, we utilize a Spec-Driven Development model that bypasses the friction of traditional engineering entirely.</p>
-    <p class="about-body"><strong>The Spec is the Source.</strong> Human creativity defines the what and the why through rigorous, high-fidelity specifications. Our autonomous AI pipelines translate intention directly into production-grade code.</p>
-    <p class="about-body">We believe the future belongs to <strong>hyper-individualized software</strong> — deeply focused products that understand a user's specific context, take independent action, and solve micro-problems without constant prompting.</p>
   </div>
 </section>
 
-<section class="how">
-  <div class="how-header reveal">
-    <div class="section-label" style="margin-bottom:12px">How we operate</div>
-    <h2 class="section-title">Design. Build. <em>Ship.</em></h2>
+<!-- ABOUT PREVIEW -->
+<section class="preview-section">
+  <div class="about-preview">
+    <div class="about-preview-left reveal">
+      <div>
+        <div class="preview-eyebrow">About</div>
+        <h2 class="preview-title">Advanced AI.<br><em>AI-Native.</em></h2>
+      </div>
+      <div class="about-stats">
+        <div>
+          <div class="about-stat-val">5</div>
+          <div class="about-stat-lbl">Autonomous Products</div>
+        </div>
+        <div>
+          <div class="about-stat-val">3</div>
+          <div class="about-stat-lbl">Academy Courses</div>
+        </div>
+      </div>
+      <a href="about.html" class="preview-link" style="align-self:flex-start;margin-top:40px">Learn More →</a>
+    </div>
+    <div class="about-preview-right reveal" style="transition-delay:0.1s">
+      <p class="about-manifesto">At Anton IO, we don't just build software — we engineer autonomy. By operating as an <strong>AI-native entity</strong>, we utilize a Spec-Driven Development model that bypasses the friction of traditional engineering entirely.</p>
+      <div class="about-pull">"The Spec is the Source. Human creativity defines the what and the why — our autonomous AI pipelines translate intention directly into production-grade code."</div>
+      <p class="about-manifesto">We believe the future belongs to <strong>hyper-individualized software</strong> — deeply focused products that understand a user's specific context, take independent action, and solve micro-problems without constant prompting.</p>
+    </div>
   </div>
-  <div class="how-steps stagger">
-    <div class="how-step"><div class="step-num">01 — Design</div><div class="step-name">Human-Centric Spec</div><div class="step-desc">We anchor on design, mapping out the precise boundaries and goals of the problem.</div></div>
-    <div class="how-step"><div class="step-num">02 — Build</div><div class="step-name">Autonomous Execution</div><div class="step-desc">AI engines execute the spec, self-correcting and running continuous integration in real time.</div></div>
-    <div class="how-step"><div class="step-num">03 — Ship</div><div class="step-name">Rapid Deployment</div><div class="step-desc">Lean, modular applications deployed directly into users' hands — days, not months.</div></div>
-    <div class="how-step"><div class="step-num">04 — Iterate</div><div class="step-name">Continuous Validation</div><div class="step-desc">We reduce the development lifecycle from months to days, iterating at the speed of thought.</div></div>
+</section>
+
+<!-- ACADEMY PREVIEW -->
+<section class="preview-section">
+  <div class="preview-header reveal">
+    <div class="preview-header-left">
+      <div class="preview-eyebrow">Academy</div>
+      <h2 class="preview-title">Learn to build<br><em>autonomous AI.</em></h2>
+    </div>
+    <a href="academy.html" class="preview-link">Explore Courses →</a>
+  </div>
+  <div class="academy-courses stagger">
+    <a class="academy-course" href="academy.html">
+      <span class="ac-glyph">🤖</span>
+      <div class="ac-badge">Course 01</div>
+      <div class="ac-name">GenAI &amp; Agentic AI</div>
+      <div class="ac-desc">Build real autonomous agents. From LLM fundamentals to multi-agent pipelines and production deployment.</div>
+      <span class="ac-pill">1.5 months · ₹500</span>
+    </a>
+    <a class="academy-course" href="academy.html">
+      <span class="ac-glyph">🧠</span>
+      <div class="ac-badge">Course 02</div>
+      <div class="ac-name">Soft Skills</div>
+      <div class="ac-desc">Communication, leadership, and emotional intelligence for AI-era professionals navigating autonomous workflows.</div>
+      <span class="ac-pill">4 weeks · ₹400</span>
+    </a>
+    <a class="academy-course" href="academy.html">
+      <span class="ac-glyph">💬</span>
+      <div class="ac-badge">Course 03</div>
+      <div class="ac-name">NLP</div>
+      <div class="ac-desc">Neuro Linguistic Programming — rewire how you communicate, influence, and think at the speed of modern AI work.</div>
+      <span class="ac-pill">Self-paced · ₹300</span>
+    </a>
   </div>
 </section>
 
 <section class="cta reveal" id="contact">
   <div class="section-label" style="display:inline-block;margin-bottom:16px">Early Access</div>
   <h2 class="cta-title">Join the waitlist.</h2>
-  <p class="cta-sub">Be first to access the full Anton ecosystem — six products, one platform.</p>
+  <p class="cta-sub">Be first to access the full Anton ecosystem — five products, one platform.</p>
   <div class="cta-form">
     <input class="cta-input" type="email" placeholder="your@email.com" id="waitlistEmail">
     <button class="cta-btn" id="waitlistBtn">Get Access</button>
   </div>
 </section>
 
-<footer class="site-footer reveal">
-  <span class="site-footer-copy">© 2024 Anton IO — Redefining Possibilities.</span>
-  <div class="site-footer-links">
-    <a href="#">Privacy</a><a href="#">Terms</a><a href="about.html#contact">Contact</a>
+<footer>
+  <div class="footer-top">
+    <div>
+      <a href="index.html" class="footer-logo">ANTON /O</a>
+      <div class="footer-tagline">AI-Native Product Studio</div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <div class="footer-col-label">Products</div>
+        <ul>
+          <li><a href="products.html">Rocky</a></li>
+          <li><a href="products.html">Finvy</a></li>
+          <li><a href="products.html">Shopy</a></li>
+          <li><a href="products.html">Estate3D</a></li>
+          <li><a href="products.html">KissAI</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Company</div>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="academy.html">Academy</a></li>
+          <li><a href="about.html#contact">Contact</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Connect</div>
+        <ul>
+          <li><a href="https://twitter.com/antonioai" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://linkedin.com/company/anton-io" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://github.com/anton-io" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2024 Anton IO. All rights reserved.</span>
+    <div class="footer-legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="js/plasma.js"></script>
 <script src="js/main.js"></script>
 <script>

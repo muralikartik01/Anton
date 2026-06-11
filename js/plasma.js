@@ -184,8 +184,12 @@
 
   // ── Resize ──
   function resize() {
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   resize();
   window.addEventListener('resize', resize, { passive: true });
@@ -236,7 +240,7 @@
     const proj = nodes.map(project);
 
     // Mouse-triggered pulses (throttled to 0.35s)
-    if (mouseX > 0 && elapsed - lastMouseTrigger > 0.35) {
+    if (mouseX !== -9999 && elapsed - lastMouseTrigger > 0.35) {
       let best = -1, bestD = Infinity;
       proj.forEach((p, i) => {
         const dx = p.sx - mouseX, dy = p.sy - mouseY;
