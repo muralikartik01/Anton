@@ -78,9 +78,9 @@
         const avgDepth = (a.depth + b.depth) / 2;
         const midFalloff = centerFalloff((a.sx + b.sx) / 2, (a.sy + b.sy) / 2);
         const baseAlpha = isDark()
-          ? 0.08 + avgDepth * 0.30
-          : 0.12 + avgDepth * 0.34;
-        const alpha = midFalloff * baseAlpha * (1 - e.d / CONN_DIST);
+          ? 0.18 + avgDepth * 0.55
+          : 0.45 + avgDepth * 0.55;
+        const alpha = midFalloff * baseAlpha * (0.4 + 0.6 * (1 - e.d / CONN_DIST));
         if (alpha < 0.008) return;
 
         ctx.beginPath();
@@ -88,7 +88,7 @@
         ctx.lineTo(b.sx, b.sy);
         ctx.strokeStyle = isDark()
           ? `rgba(255,255,255,${alpha})`
-          : `rgba(15,15,15,${alpha})`;
+          : `rgba(0,0,0,${alpha})`;
         ctx.lineWidth = avgDepth * 1.2 + 0.4;
         ctx.stroke();
       });
@@ -104,14 +104,14 @@
         if (falloff < 0.02) return;
 
         const baseAlpha = isDark()
-          ? 0.28 + p.depth * 0.55
-          : 0.32 + p.depth * 0.50;
+          ? 0.45 + p.depth * 0.55
+          : 0.65 + p.depth * 0.35;
         const alpha = Math.min(1, (baseAlpha + n.bright * 0.5) * falloff);
-        const size  = (p.depth * 6.0 + 1.5) * (0.4 + falloff * 0.6);
+        const size  = (p.depth * 10.0 + 3.0) * (0.2 + falloff * 0.8);
 
         // Glow halo when activated
         if (n.bright > 0.05) {
-          const glowRGB = isDark() ? '220,230,255' : '10,10,40';
+          const glowRGB = isDark() ? '220,230,255' : '0,0,0';
           const gr = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, size * 5);
           gr.addColorStop(0, `rgba(${glowRGB},${n.bright * p.depth * falloff * (isDark() ? 0.45 : 0.20)})`);
           gr.addColorStop(1, 'rgba(0,0,0,0)');
@@ -125,7 +125,7 @@
         ctx.arc(p.sx, p.sy, size, 0, Math.PI * 2);
         ctx.fillStyle = isDark()
           ? `rgba(255,255,255,${alpha})`
-          : `rgba(15,15,15,${alpha})`;
+          : `rgba(0,0,0,${alpha})`;
         ctx.fill();
       });
   }
@@ -161,7 +161,7 @@
       const ps = (pd * 4.5 + 1.5) * Math.max(0.3, fo);
 
       if (fo > 0.05) {
-        const glowRGB = isDark() ? '220,230,255' : '10,10,40';
+        const glowRGB = isDark() ? '220,230,255' : '0,0,0';
         const g = ctx.createRadialGradient(px, py, 0, px, py, ps * 5);
         g.addColorStop(0, `rgba(${glowRGB},${pd * fo * (isDark() ? 0.45 : 0.22)})`);
         g.addColorStop(1, 'rgba(0,0,0,0)');
@@ -171,7 +171,7 @@
         ctx.beginPath(); ctx.arc(px, py, ps, 0, Math.PI * 2);
         ctx.fillStyle = isDark()
           ? `rgba(255,255,255,${Math.min(1, pd * 0.9 + 0.1)})`
-          : `rgba(15,15,15,${Math.min(1, pd * 0.9 + 0.1)})`;
+          : `rgba(0,0,0,${Math.min(1, pd * 0.9 + 0.1)})`;
         ctx.fill();
       }
 

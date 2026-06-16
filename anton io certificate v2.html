@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANTON.IO Ai — Internship Certificate</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --p:  #A855F7;
+  --p2: #C084FC;
+  --p3: #7C3AED;
+  --dark2: #0F0F1A;
+  --ink:  #E8E8F5;
+  --ink2: #B0B0CC;
+  --ink3: #6E6E88;
+}
+
+html, body {
+  min-height: 100vh;
+  background: #05050D;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* PRINT BUTTON */
+.print-btn {
+  position: fixed; top: 20px; right: 20px;
+  background: linear-gradient(135deg, var(--p3), var(--p));
+  color: #fff; border: none; padding: 11px 28px;
+  font-family: 'Orbitron', monospace; font-size: 10px;
+  letter-spacing: 3px; text-transform: uppercase;
+  cursor: pointer; z-index: 100; border-radius: 2px;
+  box-shadow: 0 4px 24px rgba(168,85,247,0.4);
+  transition: all 0.2s;
+}
+.print-btn:hover { box-shadow: 0 6px 32px rgba(168,85,247,0.7); transform: translateY(-1px); }
+
+.page { width: 1100px; max-width: 100%; }
+
+/* CERTIFICATE */
+.cert {
+  background: var(--dark2);
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  aspect-ratio: 1.414;
+  display: flex;
+  align-items: stretch;
+}
+
+/* LEFT SIDEBAR */
+.sidebar {
+  width: 90px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, var(--p3) 0%, #1a0533 60%, var(--p3) 100%);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.sidebar::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0px, transparent 18px, rgba(255,255,255,0.04) 18px, rgba(255,255,255,0.04) 19px);
+}
+.sidebar-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; letter-spacing: 5px;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase; z-index: 2;
+}
+.sidebar-line {
+  width: 1px; flex: 1; max-height: 80px;
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,0.3), transparent);
+  z-index: 2; margin: 16px 0;
+}
+
+/* BORDER ACCENTS */
+.frame-t { position: absolute; top: 0; left: 90px; right: 0; height: 4px; background: linear-gradient(90deg, var(--p3), var(--p), var(--p3)); }
+.frame-b { position: absolute; bottom: 0; left: 90px; right: 0; height: 4px; background: linear-gradient(90deg, var(--p3), var(--p), var(--p3)); }
+.frame-r { position: absolute; right: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--p3), var(--p), var(--p3)); }
+
+/* CIRCUIT WATERMARK */
+.circuit-bg {
+  position: absolute; right: 60px; bottom: 60px;
+  opacity: 0.04; pointer-events: none; z-index: 0;
+}
+
+/* MAIN BODY */
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 52px 68px 44px 56px;
+  position: relative;
+}
+.body::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%);
+  top: -150px; right: -100px; pointer-events: none;
+}
+.body > * { position: relative; z-index: 1; }
+
+/* HEADER */
+.header {
+  display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 28px;
+}
+.logo-group { display: flex; align-items: center; gap: 14px; }
+.logo-icon {
+  width: 48px; height: 48px; background: #0a0a14;
+  border-radius: 10px; border: 1px solid rgba(168,85,247,0.4);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px rgba(168,85,247,0.25);
+  flex-shrink: 0; position: relative; overflow: hidden;
+}
+.logo-icon::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(168,85,247,0.15) 0%, transparent 60%);
+}
+.wm-main {
+  font-family: 'Orbitron', monospace; font-weight: 700;
+  font-size: 20px; letter-spacing: 3px; color: var(--ink); line-height: 1;
+}
+.wm-main em { color: var(--p2); font-style: normal; }
+.wm-sub {
+  font-family: 'Share Tech Mono', monospace; font-size: 8.5px;
+  letter-spacing: 3.5px; color: var(--ink3); margin-top: 4px; text-transform: uppercase;
+}
+.cert-id-label {
+  font-family: 'Share Tech Mono', monospace; font-size: 8px;
+  letter-spacing: 3px; color: var(--ink3); text-transform: uppercase;
+  margin-bottom: 3px; text-align: right;
+}
+.cert-id-val {
+  font-family: 'Orbitron', monospace; font-size: 11px;
+  letter-spacing: 2px; color: var(--p2);
+}
+
+/* RULE */
+.rule {
+  height: 1px;
+  background: linear-gradient(90deg, var(--p3), var(--p2), var(--p3));
+  margin-bottom: 28px; position: relative;
+}
+.rule::before, .rule::after {
+  content: '◆'; position: absolute; top: 50%; transform: translateY(-50%);
+  font-size: 8px; color: var(--p2); line-height: 1;
+}
+.rule::before { left: -1px; }
+.rule::after  { right: -1px; }
+
+/* TEXT ELEMENTS */
+.presented {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 15px; font-weight: 300; letter-spacing: 3px;
+  color: var(--ink3); text-transform: uppercase; text-align: center; margin-bottom: 6px;
+}
+.cert-title {
+  font-family: 'Cinzel Decorative', serif; font-weight: 700;
+  font-size: 42px; letter-spacing: 2px; text-align: center; line-height: 1.1; margin-bottom: 4px;
+  background: linear-gradient(135deg, #fff 30%, var(--p2) 60%, #fff 90%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.cert-title-sub {
+  font-family: 'Cinzel', serif; font-size: 15px; font-weight: 400;
+  letter-spacing: 10px; color: var(--ink3); text-align: center;
+  text-transform: uppercase; margin-bottom: 22px;
+}
+.awarded-to {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 16px; color: var(--ink3); letter-spacing: 1px;
+  text-align: center; margin-bottom: 6px;
+}
+.candidate-name {
+  font-family: 'Cinzel', serif; font-weight: 600; font-size: 36px;
+  letter-spacing: 4px; color: var(--ink);
+  display: block; text-align: center;
+}
+
+/* NAME FLOURISH */
+.name-flourish {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-top: 6px;
+}
+.nf-line       { height: 1px; width: 120px; background: linear-gradient(90deg, transparent, var(--p)); }
+.nf-line.right { background: linear-gradient(90deg, var(--p), transparent); }
+.nf-diamond    { color: var(--p); font-size: 10px; }
+
+/* ROLE PILL */
+.role-pill {
+  background: rgba(124,58,237,0.18); border: 1px solid rgba(168,85,247,0.3);
+  border-radius: 2px; padding: 5px 18px;
+  font-family: 'Orbitron', monospace; font-size: 9px;
+  letter-spacing: 3px; color: var(--p2); text-transform: uppercase;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; width: fit-content; margin: 14px auto 16px;
+}
+.pill-dot { width: 5px; height: 5px; background: var(--p); border-radius: 50%; box-shadow: 0 0 6px var(--p); }
+
+/* DESCRIPTION */
+.cert-desc {
+  font-family: 'Cormorant Garamond', serif; font-size: 16px;
+  font-weight: 400; color: var(--ink2); letter-spacing: 0.3px;
+  line-height: 1.7; text-align: center; max-width: 640px; margin: 0 auto 16px;
+}
+.cert-desc strong { color: var(--ink); font-weight: 600; }
+
+/* META ROW */
+.meta-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; margin-bottom: 20px;
+}
+.meta-item { text-align: center; padding: 10px 32px; position: relative; }
+.meta-item + .meta-item::before {
+  content: ''; position: absolute; left: 0; top: 20%; height: 60%; width: 1px;
+  background: linear-gradient(180deg, transparent, var(--p3), transparent);
+}
+.meta-label {
+  font-family: 'Share Tech Mono', monospace; font-size: 8px;
+  letter-spacing: 4px; color: var(--p2); text-transform: uppercase; margin-bottom: 5px;
+}
+.meta-val {
+  font-family: 'Cinzel', serif; font-size: 13px;
+  letter-spacing: 1.5px; color: var(--ink); font-weight: 600;
+}
+
+/* BOTTOM RULE */
+.bottom-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(168,85,247,0.4), transparent);
+  margin-bottom: 22px;
+}
+
+/* SIGNATURES */
+.sig-row {
+  display: flex; align-items: flex-end;
+  justify-content: space-between; margin-top: auto;
+}
+.sig-block { text-align: center; min-width: 160px; }
+.sig-script {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 22px; color: var(--ink); letter-spacing: 1px;
+  height: 36px; display: flex; align-items: flex-end;
+  justify-content: center; margin-bottom: 6px; opacity: 0.85;
+}
+.sig-line { width: 140px; height: 1px; background: rgba(168,85,247,0.35); margin: 0 auto 7px; }
+.sig-name {
+  font-family: 'Cinzel', serif; font-size: 10px;
+  letter-spacing: 2px; color: var(--ink); text-transform: uppercase; font-weight: 600;
+}
+.sig-role {
+  font-family: 'Share Tech Mono', monospace; font-size: 8px;
+  letter-spacing: 1.5px; color: var(--p2); margin-top: 3px;
+}
+
+/* SEAL */
+.seal-block { text-align: center; }
+.seal {
+  width: 88px; height: 88px; border-radius: 50%;
+  border: 2px solid rgba(168,85,247,0.5);
+  background: radial-gradient(circle at center, rgba(124,58,237,0.2), rgba(9,9,15,0.9));
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  margin: 0 auto 8px; position: relative;
+  box-shadow: 0 0 30px rgba(168,85,247,0.2), inset 0 0 20px rgba(124,58,237,0.15);
+}
+.seal::before {
+  content: ''; position: absolute; inset: 5px;
+  border-radius: 50%; border: 1px solid rgba(168,85,247,0.2);
+}
+.seal::after {
+  content: ''; position: absolute; inset: -8px;
+  border-radius: 50%; border: 1px dashed rgba(168,85,247,0.2);
+}
+.seal-inner-text {
+  font-family: 'Orbitron', monospace; font-weight: 900;
+  font-size: 18px; color: var(--p2); letter-spacing: 1px;
+  line-height: 1; text-shadow: 0 0 14px var(--p);
+}
+.seal-inner-text span { color: #fff; }
+.seal-year {
+  font-family: 'Share Tech Mono', monospace; font-size: 8px;
+  letter-spacing: 2px; color: rgba(255,255,255,0.4); margin-top: 3px;
+}
+.seal-label {
+  font-family: 'Share Tech Mono', monospace; font-size: 7.5px;
+  letter-spacing: 2.5px; color: var(--ink3); text-transform: uppercase;
+}
+
+@media print {
+  body { background: #09090F; padding: 0; }
+  .print-btn { display: none; }
+  .page { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">↓ Save as PDF</button>
+
+<div class="page">
+  <div class="cert">
+
+    <div class="sidebar">
+      <div class="sidebar-line"></div>
+      <div class="sidebar-text">Anton.IO Ai &nbsp;·&nbsp; Official Document</div>
+      <div class="sidebar-line"></div>
+    </div>
+
+    <div class="frame-t"></div>
+    <div class="frame-b"></div>
+    <div class="frame-r"></div>
+
+    <svg class="circuit-bg" width="280" height="280" viewBox="0 0 280 280" fill="none">
+      <path d="M140 10 L140 80 M140 200 L140 270 M10 140 L80 140 M200 140 L270 140" stroke="white" stroke-width="2"/>
+      <path d="M140 80 L180 80 L200 100 L200 140" stroke="white" stroke-width="1.5"/>
+      <path d="M140 80 L100 80 L80 100 L80 140" stroke="white" stroke-width="1.5"/>
+      <path d="M140 200 L180 200 L200 180 L200 140" stroke="white" stroke-width="1.5"/>
+      <path d="M140 200 L100 200 L80 180 L80 140" stroke="white" stroke-width="1.5"/>
+      <rect x="120" y="120" width="40" height="40" stroke="white" stroke-width="2"/>
+      <rect x="126" y="126" width="28" height="28" stroke="white" stroke-width="1"/>
+      <circle cx="140" cy="10" r="4" fill="white"/>
+      <circle cx="140" cy="270" r="4" fill="white"/>
+      <circle cx="10" cy="140" r="4" fill="white"/>
+      <circle cx="270" cy="140" r="4" fill="white"/>
+      <circle cx="80" cy="80" r="5" stroke="white" stroke-width="1.5"/>
+      <circle cx="200" cy="80" r="5" stroke="white" stroke-width="1.5"/>
+      <circle cx="80" cy="200" r="5" stroke="white" stroke-width="1.5"/>
+      <circle cx="200" cy="200" r="5" stroke="white" stroke-width="1.5"/>
+    </svg>
+
+    <div class="body">
+
+      <div class="header">
+        <div class="logo-group">
+          <div class="logo-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M5 27 L13 5 L16 5 L19 5 L27 27 L22 27 L20 21 L12 21 L10 27Z" fill="none" stroke="#A855F7" stroke-width="1.8"/>
+              <line x1="13" y1="19" x2="19" y2="19" stroke="#A855F7" stroke-width="1.5"/>
+              <rect x="13.5" y="9" width="5" height="5" rx="1" fill="#1a0533" stroke="#C084FC" stroke-width="1"/>
+              <path d="M18.5 11 L23 8 L26 8" stroke="#A855F7" stroke-width="1" opacity="0.8"/>
+              <circle cx="26" cy="8" r="1.5" fill="#A855F7"/>
+              <path d="M18.5 12.5 L22 12.5" stroke="#A855F7" stroke-width="1" opacity="0.6"/>
+              <circle cx="22" cy="12.5" r="1.2" fill="none" stroke="#A855F7" stroke-width="1"/>
+            </svg>
+          </div>
+          <div>
+            <div class="wm-main">ANTON.IO <em>Ai</em></div>
+            <div class="wm-sub">Advanced AI · Est. 2024</div>
+          </div>
+        </div>
+        <div>
+          <div class="cert-id-label">Certificate No.</div>
+          <div class="cert-id-val" id="certId">ANTN-2025-0001</div>
+        </div>
+      </div>
+
+      <div class="rule"></div>
+
+      <div class="presented">This Certificate is Proudly Presented to</div>
+      <div class="cert-title">Certificate</div>
+      <div class="cert-title-sub">of Internship</div>
+      <div class="awarded-to">awarded to</div>
+
+      <div class="candidate-name" id="candidateName">Candidate Full Name</div>
+      <div class="name-flourish">
+        <div class="nf-line"></div>
+        <div class="nf-diamond">◆</div>
+        <div class="nf-line right"></div>
+      </div>
+
+      <div class="role-pill">
+        <div class="pill-dot"></div>
+        <span id="candidateRole">AI / Machine Learning Engineer Intern</span>
+        <div class="pill-dot"></div>
+      </div>
+
+      <div class="cert-desc">
+        for successfully completing a full-term internship at <strong>ANTON.IO Ai</strong>, demonstrating
+        outstanding commitment, technical excellence, and a forward-thinking approach to
+        <strong>Advanced Artificial Intelligence</strong> solutions.
+      </div>
+
+      <div class="meta-row">
+        <div class="meta-item">
+          <div class="meta-label">Start Date</div>
+          <div class="meta-val" id="startDate">01 January 2025</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Completion Date</div>
+          <div class="meta-val" id="endDate">31 March 2025</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Duration</div>
+          <div class="meta-val" id="duration">3 Months</div>
+        </div>
+      </div>
+
+      <div class="bottom-rule"></div>
+
+      <div class="sig-row">
+        <div class="sig-block">
+          <div class="sig-script">Anton</div>
+          <div class="sig-line"></div>
+          <div class="sig-name">Anton</div>
+          <div class="sig-role">CEO &amp; Founder · ANTON.IO Ai</div>
+        </div>
+
+        <div class="seal-block">
+          <div class="seal">
+            <div class="seal-inner-text">A<span>.</span>I</div>
+            <div class="seal-year">2024 · 2025</div>
+          </div>
+          <div class="seal-label">Official Seal</div>
+        </div>
+
+        <div class="sig-block">
+          <div class="sig-script">Programs</div>
+          <div class="sig-line"></div>
+          <div class="sig-name">Internship Committee</div>
+          <div class="sig-role">Head of Programs · ANTON.IO Ai</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

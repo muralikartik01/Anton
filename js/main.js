@@ -7,9 +7,6 @@
   btn.addEventListener('click', () => {
     const isLight = html.getAttribute('data-theme') === 'light';
     html.setAttribute('data-theme', isLight ? 'dark' : 'light');
-    // Invert plasma canvas on landing page only
-    const canvas = document.getElementById('hero-canvas');
-    if (canvas) canvas.style.filter = isLight ? 'none' : 'invert(1)';
   });
 })();
 
