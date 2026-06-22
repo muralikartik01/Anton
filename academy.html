@@ -2,6 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
+<script>(function(){var m=document.cookie.match(/(?:^|; )theme=(dark|light)/);if(m)document.documentElement.setAttribute("data-theme",m[1]);})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Academy — ANTON IO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -148,12 +149,40 @@
   .outcome-check{width:20px;height:20px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
   .outcome-check svg{width:10px;height:10px;stroke:var(--text-2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
   .outcome-text{font-size:13px;color:var(--text-2);line-height:1.6}
+
+  /* Apply form (external link) */
+  .apply-desc{font-size:14px;color:var(--text-2);line-height:1.8;font-weight:300;max-width:480px;margin-bottom:28px}
+  .form-submit{display:inline-flex;align-items:center;gap:8px;background:var(--text);color:var(--bg);border:none;border-radius:100px;padding:13px 28px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;font-family:var(--font);text-decoration:none;transition:opacity 0.2s}
+  .form-submit:hover{opacity:0.85}
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:1024px){
+    .hero{padding:88px 40px 64px}
+    .courses-section{padding:56px 40px 80px}
+    .courses-grid{grid-template-columns:repeat(2,1fr)}
+    .detail-inner{padding:40px 40px 100px}
+    .detail-hero{grid-template-columns:1fr;gap:40px}
+    .enrol-card{position:static}
+    .timeline-list{grid-template-columns:repeat(2,1fr)}
+    .timeline-item:nth-child(2n){border-right:none}
+  }
+  @media (max-width:720px){
+    .hero{padding:80px 24px 56px}
+    .courses-section{padding:48px 24px 64px}
+    .courses-grid{grid-template-columns:1fr}
+    .detail-inner{padding:32px 24px 80px}
+    .week-topics{padding-left:0;margin-top:8px}
+  }
+  @media (max-width:480px){
+    .timeline-list{grid-template-columns:1fr}
+    .timeline-item{border-right:none;border-bottom:1px solid var(--border)}
+  }
 </style>
 </head>
 <body>
 
 <nav class="nav-inner">
-  <a href="index.html" class="nav-logo">/NTONIO</a>
+  <a href="index.html" class="nav-logo"><span>ANTON </span><span>/</span><span>O</span></a>
   <div class="nav-right">
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
@@ -166,6 +195,7 @@
       <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
+    <button class="nav-burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
@@ -258,7 +288,7 @@
 <footer>
   <div class="footer-top">
     <div>
-      <a href="index.html" class="footer-logo">/NTONIO</a>
+      <a href="index.html" class="footer-logo">ANTON /O</a>
       <div class="footer-tagline">AI-Native Product Studio</div>
     </div>
     <div class="footer-links">
@@ -279,28 +309,27 @@
           <li><a href="academy.html">Academy</a></li>
           <li><a href="about.html#contact">Contact</a></li>
           <li><a href="#">Careers</a></li>
+          <li><a href="verify.html">Verify Certificate</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <div class="footer-col-label">Connect</div>
         <ul>
-          <li><a href="https://twitter.com/antonioai" target="_blank" rel="noopener">Twitter / X</a></li>
-          <li><a href="https://linkedin.com/company/anton-io" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="https://github.com/anton-io" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://x.com/AntonIO00ai" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://www.linkedin.com/company/anton-io" target="_blank" rel="noopener">LinkedIn</a></li>
         </ul>
       </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2024 Anton IO. All rights reserved.</span>
-    <div class="footer-legal">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
     </div>
   </div>
 </footer>
 
 <script src="js/main.js"></script>
+<script>
+  // ── Application form (Google Forms) ──
+  // Acknowledgement email on submit is handled by the Apps Script trigger
+  // (google-form-acknowledgement-script.js), not by this site.
+  const APPLICATION_FORM_URL = 'https://forms.gle/bQz7sg8WVefWcrFE8';
+</script>
 <script>
   // ── Course data ──
   const courses = {
@@ -316,6 +345,7 @@
       format: 'Intensive Bootcamp',
       cohort: 'Live Cohort',
       certificate: 'Yes — upon completion',
+      hasApplicationForm: true,
       curriculum: [
         { num: 'Week 1', title: 'Foundations & APIs', topics: ['LLM Architecture', 'Prompt Engineering', 'REST API Basics', 'FastAPI Fundamentals', 'Tokens & Context Windows'] },
         { num: 'Week 2', title: 'Building with FastAPI', topics: ['FastAPI Routes & Models', 'Pydantic Schemas', 'Async Endpoints', 'Integrating LLM APIs', 'Authentication Basics'] },
@@ -416,7 +446,7 @@
           <p class="detail-desc">${c.desc}</p>
         </div>
         <div class="enrol-card">
-          <div class="enrol-card-label">Enrol</div>
+          <div class="enrol-card-label">Enroll</div>
           <div class="enrol-price-row">
             <span class="enrol-price">${c.price}</span>
             <span class="enrol-original">${c.originalPrice}</span>
@@ -429,7 +459,7 @@
             <div class="enrol-row"><span class="enrol-row-label">Cohort</span><span class="enrol-row-val">${c.cohort}</span></div>
             <div class="enrol-row"><span class="enrol-row-label">Certificate</span><span class="enrol-row-val">${c.certificate}</span></div>
           </div>
-          <button class="enrol-btn">Apply Now →</button>
+          <button class="enrol-btn" ${c.hasApplicationForm ? `onclick="document.getElementById('applyForm').scrollIntoView({behavior:'smooth'})"` : ''}>Apply Now →</button>
           <p class="enrol-note">Internship launch price · Limited spots</p>
         </div>
       </div>
@@ -482,6 +512,15 @@
             `).join('')}
           </div>
         </div>
+
+        ${c.hasApplicationForm ? `
+        <div id="applyForm">
+          <div class="detail-section-label">Apply</div>
+          <div class="detail-section-title">Submit your application</div>
+          <p class="apply-desc">Applications are collected through our application form. Click below to open it and submit your details — we'll review your application and get back to you.</p>
+          <a href="${APPLICATION_FORM_URL}" target="_blank" rel="noopener" class="form-submit">Open Application Form →</a>
+        </div>
+        ` : ''}
 
       </div>
     `;

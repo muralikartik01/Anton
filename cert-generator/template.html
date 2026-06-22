@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ANTON/O — Internship Certificate</title>
+<style>
+  :root {
+    --bg-0: #050608;
+    --bg-1: #0d0f15;
+    --fg: #ffffff;
+    --fg-muted: rgba(255,255,255,0.65);
+    --fg-faint: rgba(255,255,255,0.4);
+    --btn-primary-bg: #ffffff;
+    --btn-primary-fg: #000000;
+    --btn-ghost-border: rgba(255,255,255,0.35);
+    --border-faint: rgba(255,255,255,0.15);
+  }
+  [data-theme="light"] {
+    --bg-0: #f4f4f5;
+    --bg-1: #ffffff;
+    --fg: #0a0a0b;
+    --fg-muted: rgba(10,10,11,0.7);
+    --fg-faint: rgba(10,10,11,0.45);
+    --btn-primary-bg: #0a0a0b;
+    --btn-primary-fg: #ffffff;
+    --btn-ghost-border: rgba(10,10,11,0.35);
+    --border-faint: rgba(10,10,11,0.15);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; min-height: 100vh;
+    background: radial-gradient(120vw 90vh at 50% 50%, var(--bg-1) 0%, var(--bg-0) 80%);
+    color: var(--fg);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  canvas#stars {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+  }
+
+  /* TOP CONTROLS */
+  .controls {
+    position: fixed; top: 28px; right: 56px; z-index: 10;
+    display: flex; gap: 16px; align-items: center;
+  }
+
+  .theme-toggle {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--btn-ghost-border);
+    background: transparent; color: var(--fg);
+    cursor: pointer; display: grid; place-items: center;
+    transition: all 0.2s;
+  }
+  .theme-toggle:hover { border-color: var(--fg); }
+  .theme-toggle svg { width: 16px; height: 16px; }
+
+  .btn {
+    appearance: none; border: 0; cursor: pointer;
+    font: inherit; font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; font-weight: 600;
+    padding: 12px 24px; border-radius: 999px;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--btn-primary-bg); color: var(--btn-primary-fg);
+  }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* CERTIFICATE WRAPPER */
+  .cert-wrapper {
+    position: relative; z-index: 2;
+    width: 1050px; max-width: 95vw;
+    aspect-ratio: 1.414;
+    background: var(--bg-1);
+    border: 1px solid var(--btn-ghost-border);
+    padding: 56px 72px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+    overflow: hidden;
+  }
+
+  /* HEADER */
+  .cert-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .logo {
+    font-weight: 300; letter-spacing: 0.35em; font-size: 22px;
+    color: var(--fg); line-height: 1;
+  }
+  .cert-meta-top {
+    text-align: right;
+  }
+  .cert-id-label {
+    font-size: 9px; letter-spacing: 0.2em; color: var(--fg-muted);
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .cert-id-val {
+    font-size: 13px; letter-spacing: 0.1em; color: var(--fg); font-weight: 600;
+  }
+  .cert-qr {
+    width: 56px; height: 56px; margin: 12px 0 4px auto;
+    background: #fff; padding: 5px; border-radius: 6px; display: block;
+  }
+  .cert-qr-label {
+    font-size: 8px; letter-spacing: 0.15em; color: var(--fg-faint);
+    text-transform: uppercase; text-align: right;
+  }
+
+  /* BODY */
+  .cert-body {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .eyebrow {
+    display: inline-block;
+    font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--fg-faint);
+    padding: 6px 14px;
+    border: 1px solid var(--btn-ghost-border);
+    border-radius: 999px;
+    margin-bottom: 32px;
+  }
+  .presented-to {
+    font-size: 12px; letter-spacing: 0.25em; color: var(--fg-muted);
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  h1 {
+    font-size: clamp(48px, 6vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    font-weight: 800;
+    margin: 0 0 24px;
+    color: var(--fg);
+    text-transform: uppercase;
+  }
+  .role-pill {
+    font-size: 12px; letter-spacing: 0.15em; color: var(--fg);
+    background: transparent; border: 1px solid var(--fg-faint);
+    padding: 8px 24px; border-radius: 999px; margin-bottom: 32px;
+    text-transform: uppercase; font-weight: 600;
+  }
+  .sub {
+    font-size: 16px; line-height: 1.6;
+    color: var(--fg-muted);
+    max-width: 640px; margin: 0 auto;
+  }
+  .sub b { color: var(--fg); font-weight: 600; }
+
+  /* FOOTER */
+  .cert-footer {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    border-top: 1px solid var(--border-faint);
+    padding-top: 32px;
+  }
+
+  .meta-grid {
+    display: flex; gap: 48px;
+  }
+  .meta-item {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .meta-label {
+    font-size: 9px; letter-spacing: 0.2em; color: var(--fg-faint);
+    text-transform: uppercase;
+  }
+  .meta-val {
+    font-size: 13px; color: var(--fg); font-weight: 600; letter-spacing: 0.05em;
+  }
+
+  .signatures {
+    display: flex; gap: 48px;
+  }
+  .sig-block {
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .sig-line {
+    width: 160px; height: 1px; background: var(--btn-ghost-border);
+    margin-bottom: 12px;
+  }
+  .sig-name {
+    font-size: 12px; letter-spacing: 0.1em; color: var(--fg); font-weight: 600;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .sig-role {
+    font-size: 9px; letter-spacing: 0.15em; color: var(--fg-muted);
+    text-transform: uppercase;
+  }
+
+  /* PRINT STYLES */
+  @media print {
+    body { background: var(--bg-1); display: block; padding: 0; }
+    .controls, #stars { display: none !important; }
+    .cert-wrapper {
+      width: 100%; max-width: 100%; aspect-ratio: auto; height: 99vh;
+      border: none; box-shadow: none; margin: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="controls">
+  <button class="btn btn-primary" onclick="window.print()">Save as PDF</button>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  </button>
+</div>
+
+<div class="cert-wrapper">
+
+  <div class="cert-header">
+    <div>
+      <div class="logo">ANTON/O</div>
+    </div>
+    <div class="cert-meta-top">
+      <div class="cert-id-label">Certificate No.</div>
+      <div class="cert-id-val" id="certId">{{CERT_ID}}</div>
+      <img class="cert-qr" id="certQr" alt="Scan to verify this certificate" />
+      <div class="cert-qr-label">Scan to verify</div>
+    </div>
+  </div>
+
+  <div class="cert-body">
+    <span class="eyebrow">Certificate of Internship</span>
+
+    <div class="presented-to">Proudly Presented To</div>
+
+    <h1>{{NAME}}</h1>
+
+    <div class="role-pill">{{ROLE}}</div>
+
+    <p class="sub">
+      for successfully completing a comprehensive internship program, demonstrating
+      outstanding commitment, technical excellence, and a forward-thinking approach to
+      <b>{{PROGRAM_FULL}}</b>.
+    </p>
+  </div>
+
+  <div class="cert-footer">
+    <div class="meta-grid">
+      <div class="meta-item">
+        <span class="meta-label">Commencement</span>
+        <span class="meta-val">{{START_DATE}}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Completion</span>
+        <span class="meta-val">{{END_DATE}}</span>
+      </div>
+    </div>
+
+    <div class="signatures">
+      <div class="sig-block">
+        <div class="sig-line"></div>
+        <div class="sig-name">Kajol Ramchander</div>
+        <div class="sig-role">Head of Programs</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Static starfield
+  const starsCanvas = document.getElementById('stars');
+  const sctx = starsCanvas.getContext('2d');
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  function drawStars() {
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    starsCanvas.width = Math.floor(W * DPR);
+    starsCanvas.height = Math.floor(H * DPR);
+    starsCanvas.style.width = W + 'px';
+    starsCanvas.style.height = H + 'px';
+    sctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    sctx.clearRect(0, 0, W, H);
+
+    const isLight = document.documentElement.dataset.theme === 'light';
+    const baseColor = isLight ? '10,10,11' : '255,255,255';
+    const count = Math.floor((W * H) / 6500);
+
+    for (let i = 0; i < count; i++) {
+      const x = Math.random() * W;
+      const y = Math.random() * H;
+      const cx = W / 2, cy = H / 2;
+      const dx = (x - cx) / cx;
+      const dy = (y - cy) / cy;
+      const distFalloff = Math.min(1, Math.sqrt(dx * dx + dy * dy) * 1.2);
+
+      const r = Math.random() < 0.93 ? Math.random() * 0.8 + 0.3 : Math.random() * 1.4 + 0.9;
+      const baseAlpha = (isLight ? 0.22 : 0.55) * (0.35 + 0.65 * Math.random()) * (0.4 + 0.6 * distFalloff);
+
+      if (r > 1) {
+        const grad = sctx.createRadialGradient(x, y, 0, x, y, r * 4);
+        grad.addColorStop(0, `rgba(${baseColor},${baseAlpha * 0.6})`);
+        grad.addColorStop(1, `rgba(${baseColor},0)`);
+        sctx.fillStyle = grad;
+        sctx.beginPath();
+        sctx.arc(x, y, r * 4, 0, Math.PI * 2);
+        sctx.fill();
+      }
+
+      sctx.fillStyle = `rgba(${baseColor},${baseAlpha})`;
+      sctx.beginPath();
+      sctx.arc(x, y, r, 0, Math.PI * 2);
+      sctx.fill();
+    }
+  }
+
+  drawStars();
+  window.addEventListener('resize', drawStars);
+
+  // Theme toggle functionality
+  const toggle = document.getElementById('themeToggle');
+  const iconMoon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+  const iconSun  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>`;
+
+  toggle.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    toggle.innerHTML = next === 'dark' ? iconMoon : iconSun;
+    drawStars();
+  });
+
+  // Verification QR code — encodes a link to verify.html with this certificate's ID.
+  const SITE_URL = 'https://anton-io.com';
+  const certId = document.getElementById('certId').textContent.trim();
+  const verifyUrl = `${SITE_URL}/verify.html?id=${encodeURIComponent(certId)}`;
+  document.getElementById('certQr').src =
+    `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(verifyUrl)}`;
+</script>
+</body>
+</html>

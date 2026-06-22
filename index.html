@@ -2,6 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
+<script>(function(){var m=document.cookie.match(/(?:^|; )theme=(dark|light)/);if(m)document.documentElement.setAttribute("data-theme",m[1]);})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ANTON IO — Redefining Possibilities</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,14 +23,16 @@
   }
   .hero-content { position: relative; z-index: 1; }
   .hero-eyebrow {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 4px; color: var(--text-2);
+    display: inline-block;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 4px; color: var(--text-2);
+    padding: 6px 14px; border: 1px solid var(--border); border-radius: 999px;
     margin-bottom: 28px; opacity: 0; transform: translateY(12px);
     transition: opacity 0.8s ease, transform 0.8s ease;
   }
   .hero-eyebrow.visible { opacity: 1; transform: translateY(0); }
   .hero-headline {
-    font-size: clamp(28px, 4.5vw, 68px); font-weight: 800;
-    letter-spacing: -1px; line-height: 1.0; color: var(--text);
+    font-size: clamp(40px, 8.5vw, 124px); font-weight: 800;
+    letter-spacing: -0.025em; line-height: 0.96; color: var(--text);
     text-shadow: 0 0 40px rgba(255,255,255,0.08);
     transform: scale(0.82); opacity: 0;
     transition: transform 1.2s cubic-bezier(0.16,1,0.3,1), opacity 1s ease;
@@ -136,6 +139,36 @@
     transition: opacity 0.2s; border-radius: 100px; margin: 3px;
   }
   .cta-btn:hover { opacity: 0.82; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .preview-header, .home-products-intro { padding-left: 32px; padding-right: 32px; }
+    .home-grid-container { padding-left: 32px; padding-right: 32px; }
+    .academy-courses { padding-left: 32px; padding-right: 32px; }
+    .about-preview-left, .about-preview-right { padding: 48px 32px; }
+    .academy-courses { grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 860px) {
+    .about-preview { grid-template-columns: 1fr; }
+    .about-preview-right { border-top: 1px solid var(--border); }
+  }
+  @media (max-width: 720px) {
+    .hero { padding: 100px 24px 64px; }
+    .hero-actions { flex-wrap: wrap; }
+    .preview-header, .home-products-intro {
+      flex-direction: column; align-items: flex-start; gap: 20px; padding: 56px 24px 32px;
+    }
+    .home-grid-container { padding: 0 24px 48px; }
+    .academy-courses { padding: 0 24px 48px; grid-template-columns: 1fr; }
+    .about-preview-left, .about-preview-right { padding: 40px 24px; }
+    .cta { padding: 72px 24px; }
+  }
+  @media (max-width: 480px) {
+    .home-products-grid { grid-template-columns: 1fr; }
+    .cta-form { flex-direction: column; border-radius: 16px; padding: 6px; gap: 6px; }
+    .cta-input { padding: 12px 14px; width: 100%; }
+    .cta-btn { margin: 0; }
+  }
 </style>
 </head>
 <body>
@@ -155,17 +188,18 @@
       <svg class="icon-sun" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       <svg class="icon-moon" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
+    <button class="nav-burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
 <section class="hero" id="hero">
   <canvas id="hero-canvas"></canvas>
   <div class="hero-content">
+    <div class="hero-eyebrow" id="heroEyebrow">AI-Native Development Studio</div>
     <h1 class="hero-headline" id="headline">REDEFINING<br>POSSIBILITIES</h1>
     <p class="hero-sub" id="heroSub">We engineer autonomy. <strong>Spec-driven, AI-native development</strong> that compresses months of work into days — building intelligent products that solve real problems for real people.</p>
     <div class="hero-actions" id="heroActions">
-      <a href="about.html#waitlist"><button class="btn btn-fill">Join Waitlist</button></a>
-      <a href="products.html"><button class="btn btn-outline">Explore Products ↓</button></a>
+      <a href="products.html"><button class="btn btn-fill">Explore products →</button></a>
     </div>
   </div>
 </section>
@@ -393,29 +427,22 @@
           <li><a href="academy.html">Academy</a></li>
           <li><a href="about.html#contact">Contact</a></li>
           <li><a href="#">Careers</a></li>
+          <li><a href="verify.html">Verify Certificate</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <div class="footer-col-label">Connect</div>
         <ul>
-          <li><a href="https://twitter.com/antonioai" target="_blank" rel="noopener">Twitter / X</a></li>
-          <li><a href="https://linkedin.com/company/anton-io" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="https://github.com/anton-io" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://x.com/AntonIO00ai" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://www.linkedin.com/company/anton-io" target="_blank" rel="noopener">LinkedIn</a></li>
         </ul>
       </div>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2024 Anton IO. All rights reserved.</span>
-    <div class="footer-legal">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-    </div>
-  </div>
 </footer>
 
-<script src="js/plasma.js"></script>
 <script src="js/main.js"></script>
+<script src="js/stars.js"></script>
 <script>
   // Waitlist form
   document.getElementById('waitlistBtn').addEventListener('click', () => {

@@ -6,7 +6,25 @@
   const html = document.documentElement;
   btn.addEventListener('click', () => {
     const isLight = html.getAttribute('data-theme') === 'light';
-    html.setAttribute('data-theme', isLight ? 'dark' : 'light');
+    const next = isLight ? 'dark' : 'light';
+    html.setAttribute('data-theme', next);
+    document.cookie = 'theme=' + next + ';path=/;max-age=' + (60 * 60 * 24 * 365);
+  });
+})();
+
+// ── MOBILE NAV TOGGLE ──
+(function () {
+  const nav    = document.querySelector('nav');
+  const burger = document.querySelector('.nav-burger');
+  if (!nav || !burger) return;
+  burger.addEventListener('click', () => nav.classList.toggle('nav-open'));
+  nav.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => nav.classList.remove('nav-open'));
+  });
+  document.addEventListener('click', e => {
+    if (nav.classList.contains('nav-open') && !nav.contains(e.target)) {
+      nav.classList.remove('nav-open');
+    }
   });
 })();
 
@@ -55,6 +73,7 @@
   const headline = document.getElementById('headline');
   if (!headline) return;
   window.addEventListener('load', () => {
+    setTimeout(() => { const e = document.getElementById('heroEyebrow'); if (e) e.classList.add('visible'); }, 200);
     setTimeout(() => headline.classList.add('visible'), 380);
     setTimeout(() => { const s = document.getElementById('heroSub');     if (s) s.classList.add('visible'); }, 700);
     setTimeout(() => { const a = document.getElementById('heroActions'); if (a) a.classList.add('visible'); }, 900);

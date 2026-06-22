@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<script>(function(){var m=document.cookie.match(/(?:^|; )theme=(dark|light)/);if(m)document.documentElement.setAttribute("data-theme",m[1]);})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify Certificate — ANTON IO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .verify-hero{padding:120px 64px 60px;border-bottom:1px solid var(--border);text-align:center}
+  .verify-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:5px;color:var(--text-3);margin-bottom:24px}
+  .verify-title{font-size:clamp(36px,5vw,64px);font-weight:700;letter-spacing:-2.5px;line-height:0.95}
+  .verify-sub{font-size:15px;color:var(--text-2);margin-top:24px;max-width:520px;line-height:1.8;font-weight:300;margin-left:auto;margin-right:auto}
+
+  .verify-section{padding:72px 64px 120px;display:flex;flex-direction:column;align-items:center}
+  .verify-form{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:6px 6px 6px 24px;gap:8px;width:100%;max-width:440px;transition:border-color 0.2s}
+  .verify-form:focus-within{border-color:var(--text-3)}
+  .verify-form input{flex:1;background:transparent;border:none;outline:none;font-size:13px;color:var(--text);font-family:var(--font);text-transform:uppercase;letter-spacing:0.5px}
+  .verify-form input::placeholder{color:var(--text-3);text-transform:none}
+  .verify-form button{background:var(--text);color:var(--bg);border:none;border-radius:100px;padding:12px 24px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;font-family:var(--font);white-space:nowrap;transition:opacity 0.2s}
+  .verify-form button:hover{opacity:0.85}
+
+  .verify-result{width:100%;max-width:560px;margin-top:40px}
+  .verify-result.hidden{display:none}
+  .vr-status{display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600;letter-spacing:-0.2px;margin-bottom:24px}
+  .vr-status .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .vr-status.valid .dot{background:#2ecc71;box-shadow:0 0 12px rgba(46,204,113,0.6)}
+  .vr-status.valid{color:#2ecc71}
+  .vr-status.invalid .dot{background:#e25555;box-shadow:0 0 12px rgba(226,85,85,0.5)}
+  .vr-status.invalid{color:#e25555}
+
+  .vr-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px 32px}
+  .vr-row{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-top:1px solid var(--border)}
+  .vr-row:first-child{border-top:none;padding-top:0}
+  .vr-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-3)}
+  .vr-val{font-size:13px;color:var(--text);font-weight:500;letter-spacing:0.2px;text-align:right}
+
+  .vr-help{font-size:13px;color:var(--text-2);line-height:1.7}
+  .vr-help a{color:var(--text);text-decoration:underline}
+
+  .li-add-btn{display:inline-flex;align-items:center;gap:8px;margin-top:20px;background:var(--text);color:var(--bg);border:none;border-radius:100px;padding:12px 24px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;font-family:var(--font);text-decoration:none;transition:opacity 0.2s}
+  .li-add-btn:hover{opacity:0.85}
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:720px){
+    .verify-hero{padding:88px 24px 48px}
+    .verify-section{padding:48px 24px 80px}
+  }
+  @media (max-width:480px){
+    .verify-form{flex-direction:column;border-radius:16px;padding:8px;align-items:stretch}
+    .verify-form input{padding:8px 10px;text-align:center}
+    .vr-card{padding:24px 20px}
+    .vr-row{flex-direction:column;align-items:flex-start;gap:4px}
+    .vr-val{text-align:left}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav-inner">
+  <a href="index.html" class="nav-logo"><span>ANTON </span><span>/</span><span>O</span></a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="academy.html">Academy</a></li>
+      <li><a href="about.html#contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" aria-label="Toggle theme">
+      <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <button class="nav-burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<section class="verify-hero">
+  <div class="verify-eyebrow">Certificate Verification</div>
+  <h1 class="verify-title">Verify a<br>certificate.</h1>
+  <p class="verify-sub">Enter the certificate number printed on an ANTON IO internship certificate — or scan the QR code on the certificate itself — to confirm it's genuine.</p>
+</section>
+
+<section class="verify-section">
+  <form class="verify-form" id="verifyForm">
+    <input type="text" id="certIdInput" placeholder="e.g. ANTN-2026-0084" autocomplete="off" />
+    <button type="submit">Verify →</button>
+  </form>
+
+  <div class="verify-result hidden" id="verifyResult"></div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <a href="index.html" class="footer-logo">ANTON /O</a>
+      <div class="footer-tagline">AI-Native Product Studio</div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <div class="footer-col-label">Products</div>
+        <ul>
+          <li><a href="products.html">Rocky</a></li>
+          <li><a href="products.html">Finvy</a></li>
+          <li><a href="products.html">Shopy</a></li>
+          <li><a href="products.html">Estate3D</a></li>
+          <li><a href="products.html">KissAI</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Company</div>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="academy.html">Academy</a></li>
+          <li><a href="about.html#contact">Contact</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="verify.html">Verify Certificate</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Connect</div>
+        <ul>
+          <li><a href="https://x.com/AntonIO00ai" target="_blank" rel="noopener">Twitter / X</a></li>
+          <li><a href="https://www.linkedin.com/company/anton-io" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/certificates.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const form   = document.getElementById('verifyForm');
+  const input  = document.getElementById('certIdInput');
+  const result = document.getElementById('verifyResult');
+
+  // IMPORTANT: replace SITE_URL with your live production domain.
+  // LinkedIn's "Add to Profile" form requires certUrl to be a real, public
+  // https:// URL — it rejects file:// and localhost addresses, which is what
+  // you'll see if you test this from a local file or dev server.
+  const SITE_URL = 'https://anton-io.com';
+
+  const MONTHS = {Jan:1,Feb:2,Mar:3,Apr:4,May:5,Jun:6,Jul:7,Aug:8,Sep:9,Oct:10,Nov:11,Dec:12};
+
+  function parseCertDate(str) {
+    const [, mon, year] = str.trim().split(' ');
+    return { month: MONTHS[mon], year: parseInt(year, 10) };
+  }
+
+  function linkedInAddUrl(cert) {
+    const issued = parseCertDate(cert.endDate);
+    const certUrl = `${SITE_URL}/verify.html?id=${encodeURIComponent(cert.id)}`;
+    const params = new URLSearchParams({
+      startTask: 'CERTIFICATION_NAME',
+      name: cert.program + ' — ANTON IO Internship',
+      organizationName: 'ANTON IO',
+      issueYear: issued.year,
+      issueMonth: issued.month,
+      certUrl: certUrl,
+      certId: cert.id,
+    });
+    return 'https://www.linkedin.com/profile/add?' + params.toString();
+  }
+
+  function renderValid(cert) {
+    result.innerHTML = `
+      <div class="vr-status valid"><span class="dot"></span> Certificate Verified</div>
+      <div class="vr-card">
+        <div class="vr-row"><span class="vr-label">Certificate No.</span><span class="vr-val">${cert.id}</span></div>
+        <div class="vr-row"><span class="vr-label">Name</span><span class="vr-val">${cert.name}</span></div>
+        <div class="vr-row"><span class="vr-label">Program</span><span class="vr-val">${cert.program}</span></div>
+        <div class="vr-row"><span class="vr-label">Commencement</span><span class="vr-val">${cert.startDate}</span></div>
+        <div class="vr-row"><span class="vr-label">Completion</span><span class="vr-val">${cert.endDate}</span></div>
+        <div class="vr-row"><span class="vr-label">Duration</span><span class="vr-val">${cert.duration}</span></div>
+      </div>
+      <a href="${linkedInAddUrl(cert)}" target="_blank" rel="noopener" class="li-add-btn">Add to LinkedIn profile →</a>
+    `;
+  }
+
+  function renderInvalid(id) {
+    result.innerHTML = `
+      <div class="vr-status invalid"><span class="dot"></span> Certificate Not Found</div>
+      <p class="vr-help">We couldn't find a certificate matching <strong>${id}</strong>. Double-check the certificate number, or contact us at <a href="mailto:support.anton@anton-io.com">support.anton@anton-io.com</a> if you believe this is an error.</p>
+    `;
+  }
+
+  function verify(rawId) {
+    const id = rawId.trim().toUpperCase();
+    if (!id) return;
+    result.classList.remove('hidden');
+    const cert = CERTIFICATES.find(c => c.id.toUpperCase() === id);
+    cert ? renderValid(cert) : renderInvalid(id);
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    verify(input.value);
+  });
+
+  // Auto-verify when a QR code links here with ?id=ANTN-2026-0084
+  const params = new URLSearchParams(window.location.search);
+  const queryId = params.get('id');
+  if (queryId) {
+    input.value = queryId;
+    verify(queryId);
+  }
+</script>
+</body>
+</html>
