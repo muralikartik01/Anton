@@ -22,6 +22,7 @@ const puppeteer = require('puppeteer');
 
 const ROOT = path.resolve(__dirname, '..');
 const TEMPLATE_PATH = path.join(__dirname, 'template.html');
+const SIGNATURE_PATH = path.join(__dirname, 'assets', 'signature-kajol.png');
 const CERTIFICATES_JS_PATH = path.join(ROOT, 'js', 'certificates.js');
 const OUTPUT_DIR = path.join(__dirname, 'output');
 
@@ -30,13 +31,23 @@ const DEFAULT_PROGRAM_FULL = 'GenAI and Agentic Systems Internship';
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+// SheetJS represents Excel date cells as UTC instants, and the serial-number
+// round-trip can leave them a few ms off midnight — snap to the nearest UTC
+// day first so the date doesn't shift by one depending on local timezone.
+function normalizeDateOnly(d) {
+  return new Date(Math.round(d.getTime() / 86400000) * 86400000);
+}
+
 function formatDate(d) {
-  return `${String(d.getDate()).padStart(2, '0')} ${MONTH_NAMES[d.getMonth()]} ${d.getFullYear()}`;
+  const n = normalizeDateOnly(d);
+  return `${String(n.getUTCDate()).padStart(2, '0')} ${MONTH_NAMES[n.getUTCMonth()]} ${n.getUTCFullYear()}`;
 }
 
 function monthsBetween(start, end) {
-  let months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
-  if (end.getDate() >= start.getDate()) months += 1; // inclusive of partial month
+  const s = normalizeDateOnly(start);
+  const e = normalizeDateOnly(end);
+  let months = (e.getUTCFullYear() - s.getUTCFullYear()) * 12 + (e.getUTCMonth() - s.getUTCMonth());
+  if (e.getUTCDate() > s.getUTCDate()) months += 1; // round up if end overshoots start's day-of-month
   return Math.max(1, months);
 }
 
@@ -123,15 +134,24 @@ async function main() {
   const existing = loadExistingCertificates();
   const candidates = readCandidates(excelPath);
 
+  if (!fs.existsSync(SIGNATURE_PATH)) {
+    console.error(`Signature image not found: ${SIGNATURE_PATH}`);
+    process.exit(1);
+  }
+  // Inlined as a data URI so each generated certificate is a single
+  // self-contained file (no broken image link if emailed without the assets folder).
+  const signatureDataUri = `data:image/png;base64,${fs.readFileSync(SIGNATURE_PATH).toString('base64')}`;
+
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-
+  // HTML generation + certificates.js registration always happens, even if
+  // PDF rendering below fails — a Puppeteer/Chromium problem shouldn't block
+  // certificates from being issued.
   const newRecords = [];
+  const htmlPaths = [];
 
   for (const candidate of candidates) {
-    const year = candidate.startDate.getFullYear();
+    const year = normalizeDateOnly(candidate.startDate).getUTCFullYear();
     const certId = nextCertId([...existing, ...newRecords], year);
     const startDate = formatDate(candidate.startDate);
     const endDate = formatDate(candidate.endDate);
@@ -144,19 +164,12 @@ async function main() {
       .replaceAll('{{ROLE}}', escapeHtml(candidate.role))
       .replaceAll('{{PROGRAM_FULL}}', DEFAULT_PROGRAM_FULL)
       .replaceAll('{{START_DATE}}', startDate)
-      .replaceAll('{{END_DATE}}', endDate);
+      .replaceAll('{{END_DATE}}', endDate)
+      .replaceAll('{{SIGNATURE_DATA_URI}}', signatureDataUri);
 
     const htmlPath = path.join(OUTPUT_DIR, `${certId}.html`);
     fs.writeFileSync(htmlPath, html);
-
-    await page.goto('file://' + htmlPath, { waitUntil: 'networkidle0' });
-    await page.pdf({
-      path: path.join(OUTPUT_DIR, `${certId}.pdf`),
-      format: 'A4',
-      landscape: true,
-      printBackground: true,
-      margin: { top: 0, bottom: 0, left: 0, right: 0 },
-    });
+    htmlPaths.push(htmlPath);
 
     newRecords.push({
       id: certId,
@@ -167,15 +180,37 @@ async function main() {
       duration,
     });
 
-    console.log(`Generated ${certId} — ${candidate.name}`);
+    console.log(`Generated ${certId}.html — ${candidate.name}`);
   }
 
-  await browser.close();
-
   writeCertificatesJs([...existing, ...newRecords]);
-
-  console.log(`\nDone. ${newRecords.length} certificate(s) written to ${OUTPUT_DIR}`);
   console.log('js/certificates.js was updated — commit & deploy it so verify.html recognizes the new certificates.');
+
+  let pdfsGenerated = 0;
+  try {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    for (let i = 0; i < htmlPaths.length; i++) {
+      await page.goto('file://' + htmlPaths[i], { waitUntil: 'networkidle0' });
+      await page.pdf({
+        path: htmlPaths[i].replace(/\.html$/, '.pdf'),
+        format: 'A4',
+        landscape: true,
+        printBackground: true,
+        margin: { top: 0, bottom: 0, left: 0, right: 0 },
+      });
+      pdfsGenerated++;
+      console.log(`Rendered ${newRecords[i].id}.pdf`);
+    }
+    await browser.close();
+  } catch (err) {
+    console.warn(`\nPDF rendering failed (${err.message}).`);
+    console.warn('HTML certificates and js/certificates.js were still generated successfully.');
+    console.warn('Open each .html file in a browser and use its "Save as PDF" button instead,');
+    console.warn('or fix the Puppeteer/Chromium launch issue and re-run to get PDFs directly (see README.md).');
+  }
+
+  console.log(`\nDone. ${newRecords.length} certificate(s) written to ${OUTPUT_DIR} (${pdfsGenerated} PDF(s)).`);
 }
 
 main().catch((err) => {

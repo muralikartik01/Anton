@@ -4,3 +4,4 @@ node_modules/
 Thumbs.db
 .env
 cert-generator/output/
+cert-generator/*.xlsx
