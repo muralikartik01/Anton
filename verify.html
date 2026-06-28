@@ -168,12 +168,15 @@
     verify(input.value);
   });
 
-  // Auto-verify when a QR code links here with ?id=ANTN-2026-0084
+  // Auto-verify when a QR code links here with ?id=ANTN-2026-0084 — the
+  // result is shown immediately, so the manual search form (which has
+  // nothing left to do) is hidden rather than left sitting there unused.
   const params = new URLSearchParams(window.location.search);
   const queryId = params.get('id');
   if (queryId) {
     input.value = queryId;
     verify(queryId);
+    form.style.display = 'none';
   }
 </script>
 </body>

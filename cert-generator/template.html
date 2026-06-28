@@ -105,8 +105,8 @@
     font-size: 13px; letter-spacing: 0.1em; color: var(--fg); font-weight: 600;
   }
   .cert-qr {
-    width: 104px; height: 104px; margin: 12px 0 4px auto;
-    background: #fff; padding: 8px; border-radius: 6px; display: block;
+    width: 144px; height: 144px; margin: 12px 0 4px auto;
+    background: #fff; padding: 10px; border-radius: 6px; display: block;
   }
   .cert-qr-label {
     font-size: 8px; letter-spacing: 0.15em; color: var(--fg-faint);
@@ -205,11 +205,26 @@
   }
 
   /* PRINT STYLES */
+  /* Forces A4 landscape with no margin in browsers that respect @page
+     (Chrome/Edge do; Safari mostly ignores it — set it manually there:
+     Paper Size A4, Orientation Landscape, Margins None, Scale 100%). */
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
   @media print {
-    body { background: var(--bg-1); display: block; padding: 0; }
+    /* min-height:100vh from the screen layout above can exceed one physical
+       page in Safari's print engine, pushing the footer onto page 2 — reset
+       it, and size .cert-wrapper in absolute mm (matching @page) instead of
+       vh/% so it can't be taller than the actual printed page. */
+    html, body {
+      margin: 0; padding: 0; min-height: 0; height: auto;
+      background: var(--bg-1); display: block;
+    }
     .controls, #stars { display: none !important; }
     .cert-wrapper {
-      width: 100%; max-width: 100%; aspect-ratio: auto; height: 99vh;
+      width: 297mm; height: 210mm; max-width: none; aspect-ratio: auto;
       border: none; box-shadow: none; margin: 0;
     }
   }
