@@ -28,8 +28,21 @@ const OUTPUT_DIR = path.join(__dirname, 'output');
 
 const DEFAULT_PROGRAM = 'GenAI & Agentic Systems Intern';
 const DEFAULT_PROGRAM_FULL = 'GenAI and Agentic Systems Internship';
+const SITE_URL = 'https://anton-io.com';
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// Fetched once per cert at generation time and inlined as a data URI, so the
+// certificate file has no runtime dependency on api.qrserver.com — it'll
+// render correctly even when downloaded/printed offline.
+async function fetchQrDataUri(certId) {
+  const verifyUrl = `${SITE_URL}/verify.html?id=${encodeURIComponent(certId)}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=320x320&ecc=H&margin=8&data=${encodeURIComponent(verifyUrl)}`;
+  const res = await fetch(qrUrl);
+  if (!res.ok) throw new Error(`QR fetch failed for ${certId}: ${res.status}`);
+  const buf = Buffer.from(await res.arrayBuffer());
+  return `data:image/png;base64,${buf.toString('base64')}`;
+}
 
 // SheetJS represents Excel date cells as UTC instants, and the serial-number
 // round-trip can leave them a few ms off midnight — snap to the nearest UTC
@@ -157,6 +170,7 @@ async function main() {
     const endDate = formatDate(candidate.endDate);
     const months = monthsBetween(candidate.startDate, candidate.endDate);
     const duration = `${months} Month${months > 1 ? 's' : ''}`;
+    const qrDataUri = await fetchQrDataUri(certId);
 
     const html = template
       .replaceAll('{{CERT_ID}}', certId)
@@ -165,7 +179,8 @@ async function main() {
       .replaceAll('{{PROGRAM_FULL}}', DEFAULT_PROGRAM_FULL)
       .replaceAll('{{START_DATE}}', startDate)
       .replaceAll('{{END_DATE}}', endDate)
-      .replaceAll('{{SIGNATURE_DATA_URI}}', signatureDataUri);
+      .replaceAll('{{SIGNATURE_DATA_URI}}', signatureDataUri)
+      .replaceAll('{{QR_DATA_URI}}', qrDataUri);
 
     const htmlPath = path.join(OUTPUT_DIR, `${certId}.html`);
     fs.writeFileSync(htmlPath, html);

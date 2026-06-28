@@ -237,7 +237,7 @@
     <div class="cert-meta-top">
       <div class="cert-id-label">Certificate No.</div>
       <div class="cert-id-val" id="certId">{{CERT_ID}}</div>
-      <img class="cert-qr" id="certQr" alt="Scan to verify this certificate" />
+      <img class="cert-qr" id="certQr" src="{{QR_DATA_URI}}" alt="Scan to verify this certificate" />
       <div class="cert-qr-label">Scan to verify</div>
     </div>
   </div>
@@ -345,12 +345,9 @@
     drawStars();
   });
 
-  // Verification QR code — encodes a link to verify.html with this certificate's ID.
-  const SITE_URL = 'https://anton-io.com';
-  const certId = document.getElementById('certId').textContent.trim();
-  const verifyUrl = `${SITE_URL}/verify.html?id=${encodeURIComponent(certId)}`;
-  document.getElementById('certQr').src =
-    `https://api.qrserver.com/v1/create-qr-code/?size=320x320&ecc=H&margin=8&data=${encodeURIComponent(verifyUrl)}`;
+  // Verification QR is baked in as a data URI at generation time (see
+  // generate-certificates.js) — no runtime network fetch, so it's reliable
+  // even in a downloaded/printed copy with no live network connection.
 </script>
 </body>
 </html>
